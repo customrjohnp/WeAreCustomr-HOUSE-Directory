@@ -40,16 +40,14 @@
     .btn.ghost{background:transparent;border:1px dashed #2a3a4e}
     .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid #1b2233;background:#0b0c0f}
 
-    /* Footer */
     .footer{font-size:12px;padding:24px;text-align:center;background:#0b0c0f;border:1px solid #1c2230;border-radius:14px;margin:16px 0 0;color:var(--muted)}
     .footer-inner{display:flex;flex-direction:column;gap:8px;align-items:center}
     .footer-brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--text)}
     .footer-nav a{color:#bcd5dd;text-decoration:none;margin:0 8px}
     .footer-nav a:hover{text-decoration:underline}
 
-    /* Overlays */
     .overlay{position:fixed;inset:0;display:none;background:rgba(0,0,0,.65);z-index:1000}
-    #overlay{z-index:1100;} /* email preview sits above program overlay */
+    #overlay{z-index:1100;}
     .overlay.show{display:block}
     .ov-panel{position:absolute;inset:30px;display:flex;flex-direction:column;background:#0c0f16;border:1px solid #1c2230;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
     .ov-bar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1c2230;padding:10px 12px}
@@ -80,7 +78,6 @@
 
       <h2 id="filters-heading" class="visually-hidden" style="position:absolute;left:-9999px">Filters</h2>
       <div class="toolbar">
-        <!-- >>> EDIT HERE (optional placeholder) <<< -->
         <label class="field"><input type="search" id="q" placeholder="Search… e.g., Welcome Series, Abandoned Cart, VIP" aria-label="Search" /></label>
         <label class="field"><select id="programFilter"><option value="">All programs</option></select></label>
         <label class="field"><select id="type"><option value="">All types</option></select></label>
@@ -95,7 +92,6 @@
       <div id="emails-view" class="grid" aria-live="polite" style="display:none"></div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
       <div class="footer-inner">
         <div class="footer-brand"><span class="dot" aria-hidden="true"></span>WeAreCustomr</div>
@@ -111,7 +107,7 @@
     </footer>
   </div>
 
-  <!-- ===== Email preview overlay (iframe) ===== -->
+  <!-- Email preview overlay -->
   <div id="overlay" class="overlay" aria-hidden="true">
     <div class="ov-panel" role="dialog" aria-modal="true" aria-labelledby="ov-title">
       <div class="ov-bar">
@@ -126,7 +122,7 @@
     </div>
   </div>
 
-  <!-- ===== Program overlay (image + logic + list of emails) ===== -->
+  <!-- Program overlay -->
   <div id="prog-overlay" class="overlay" aria-hidden="true">
     <div class="ov-panel" role="dialog" aria-modal="true" aria-labelledby="prog-title">
       <div class="ov-bar">
@@ -148,11 +144,8 @@
   </div>
 
   <script>
-    /* ===== PRESETS (you can edit types if you like) ===== */
     const TYPES_PRESET = ["Marketing","Automation","Transactional"];
 
-    /* ===== PROGRAMS — EDIT HERE (placeholders ready) =====
-       image paths are placeholders; drop PNG/JPGs there or change paths */
     const PROGRAMS = [
       {
         id: "house_welcome_series",
@@ -194,7 +187,8 @@
         title: "[FUTURE STATE] Post-Purchase (Categories)",
         categoryForEmails: "Post-Purchase",
         image: "Programs/GRB/House/post_purchase_categories.png",
-        summary: "Category-led aftercare, cross-sell, care tips, and review prompts.", bullets: ["Category routes", "Aftercare + how-to", "Cross-sell + reviews"]
+        summary: "Category-led aftercare, cross-sell, care tips, and review prompts.",
+        bullets: ["Category routes", "Aftercare + how-to", "Cross-sell + reviews"]
       },
       {
         id: "house_cross_sell_pf",
@@ -222,17 +216,14 @@
       }
     ];
 
-    /* ===== EMAILS — EDIT HERE (House / GRB) =====
-       Paths are relative to repo root. No .html? We'll add it automatically.
-       CATEGORY must include the program category name to map it. */
+    /* EMAILS (House / GRB) */
     const EMAILS = [
-      // Welcome Series — Online LEAD (from your folder)
       { id:"Auto_WelcomeSeries_Online_Lead_Email_01", type:"Automation", date:"2025-09-22",
-        category:["Welcome Series","Online"], tags:["Lead","Welcome"], 
+        category:["Welcome Series","Online"], tags:["Lead","Welcome"],
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Lead_Email_01.html",
         notes:"Intro hero, $20 off WELCOME20 (2wks), value props, dynamic recs, rewards CTA" },
       { id:"Auto_WelcomeSeries_Online_Lead_Email_02", type:"Automation", date:"2025-09-19",
-        category:["Welcome Series","Online"], tags:["Lead"], 
+        category:["Welcome Series","Online"], tags:["Lead"],
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Lead_Email_02.html",
         notes:"Lifestyle hero + brand highlights, USPs, shop-by-category tiles" },
       { id:"Auto_WelcomeSeries_Online_Lead_Email_03", type:"Automation", date:"2025-09-16",
@@ -240,7 +231,6 @@
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Lead_Email_03.html",
         notes:"Story tile + editorial section" },
 
-      // Welcome Series — Online CUSTOMER
       { id:"Auto_WelcomeSeries_Online_Customer_Email_01", type:"Automation", date:"2025-09-10",
         category:["Welcome Series","Online"], tags:["Customer"],
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Customer_Email_01.html",
@@ -250,7 +240,6 @@
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Customer_Email_02.html",
         notes:"Follow-up with care/use tips and related categories" },
 
-      // Welcome Series — In-Store VIP (from your folder)
       { id:"Auto_WelcomeSeries_InStore_VIP_Email_01", type:"Automation", date:"2025-09-06",
         category:["Welcome Series","In Store","VIP"], tags:["VIP","In-store"],
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_InStore_VIP_Email_01.html",
@@ -266,23 +255,19 @@
       { id:"Auto_WelcomeSeries_InStore_VIP_NoCode_Email_02", type:"Automation", date:"2025-09-03",
         category:["Welcome Series","In Store","VIP"], tags:["No-code","VIP","In-store"],
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_InStore_VIP_NoCode_Email_02.html",
-        notes:"No-code branch for VIP — incentive removed / value-led content" }
+        notes:"No-code branch for VIP — incentive removed / value-led content" },  <!-- <<< COMMA ADDED HERE -->
 
-
-      // VIP Anniversary Offer
+      /* VIP Anniversary Offer (category must match PROGRAMS.categoryForEmails) */
       { id:"AP_TR_VIP_AV_E1", type:"Automation", date:"2025-09-06",
-        category:["VIP Anniversary"], tags:["VIP","In-store"],
+        category:["VIP Anniversary"], tags:["VIP","Anniversary"],
         path:"Emails/GRB/House/VIP Anniversary Offer/AP_TR_VIP_AV_E1.html",
-        notes:"VIP Email 1" },
+        notes:"VIP Anniversary Email 1" },
       { id:"AP_TR_VIP_AV_E2", type:"Automation", date:"2025-09-04",
-        category:["VIP Anniversary"], tags:["VIP","In-store"],
+        category:["VIP Anniversary"], tags:["VIP","Anniversary"],
         path:"Emails/GRB/House/VIP Anniversary Offer/AP_TR_VIP_AV_E2.html",
-        notes:"VIP Email 2" },
-    
-      // Add more EMAILS for other programs later (Abandoned Cart, Re-engagement, etc.)
+        notes:"VIP Anniversary Email 2" }
     ];
 
-    /* ===== BELOW HERE: logic (don’t edit) ===== */
     const q = document.getElementById('q');
     const typeSel = document.getElementById('type');
     const sortSel = document.getElementById('sort');
@@ -307,7 +292,6 @@
     const pEmails = document.getElementById('prog-emails');
     const pClose = document.getElementById('prog-close');
 
-    // Build filters
     (TYPES_PRESET||["Marketing","Automation","Transactional"]).forEach(t=>{
       const o=document.createElement('option'); o.value=t; o.textContent=t; typeSel.appendChild(o);
     });
@@ -319,8 +303,8 @@
     function buildHref(rawPath){
       let p = (rawPath||'').trim();
       if(!p) return '';
-      if(!/\.[a-z0-9]+$/i.test(p)) p += '.html';                 // ensure .html
-      p = p.split('/').map(seg => encodeURIComponent(seg)).join('/'); // encode each segment
+      if(!/\.[a-z0-9]+$/i.test(p)) p += '.html';
+      p = p.split('/').map(seg => encodeURIComponent(seg)).join('/');
       return basePath + p;
     }
     function formatDate(iso){
@@ -338,7 +322,7 @@
       pOverlay.classList.remove('show'); pOverlay.setAttribute('aria-hidden','true'); pImg.removeAttribute('src');
     }
     function openEmailOverlay(title, href){
-      closeProgramOverlay(); // ensure email overlay is on top
+      closeProgramOverlay();
       ovTitle.textContent = title; ovFrame.src = href; ovOpen.href = href; ovDown.href = href;
       overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
     }
@@ -426,12 +410,10 @@
       const progId = progFilterSel.value;
 
       let rows = EMAILS.slice();
-      // program filter (maps by category or explicit ids)
-      if(progId){ 
+      if(progId){
         const ids = new Set(emailsForProgram(progId).map(e=>e.id));
         rows = rows.filter(e=>ids.has(e.id));
       }
-      // type + search
       rows = rows.filter(e=>{
         const inType = !type || e.type===type;
         const hay = [e.id,(e.category||[]).join(' '),(e.tags||[]).join(' '),e.notes||''].join(' ').toLowerCase();
@@ -478,20 +460,16 @@
       programsSelected ? renderPrograms() : renderEmails();
     }
 
-    // Tabs
     tabPrograms.addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','true'); tabEmails.setAttribute('aria-selected','false'); renderAll(); });
     tabEmails  .addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','false'); tabEmails .setAttribute('aria-selected','true');  renderAll(); });
 
-    // Filters
     q.addEventListener('input', renderAll);
     typeSel.addEventListener('change', renderAll);
     sortSel.addEventListener('change', renderAll);
     progFilterSel.addEventListener('change', renderAll);
 
-    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Initial render
     renderAll();
   </script>
 </body>
