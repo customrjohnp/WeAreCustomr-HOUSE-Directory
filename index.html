@@ -140,11 +140,15 @@
 
     <!-- House × Customr banner (swap image when ready, or keep text) -->
     <section class="brandbar" aria-label="House × Customr">
-      <!-- Optional image placeholder -->
-      <!-- <img src="assets/House X Customr Banner.svg" alt="House × Customr"> -->
-      <span class="tag">House × Customr</span>
-      <div class="muted">Partnership workspace — previews, program maps & shareable links</div>
-    </section>
+  <img id="brand-img" src="assets/house-x-customr-banner.svg" alt="House × Customr" />
+  <span class="tag">House × Customr</span>
+  <div class="muted">Partnership workspace — previews, program maps & shareable links</div>
+</section>
+const brandImg = document.getElementById('brand-img');
+if (brandImg) {
+  brandImg.addEventListener('error', ()=> brandImg.style.display = 'none');
+}
+
 
     <section class="panel" aria-labelledby="filters-heading">
       <div class="tabs" role="tablist">
@@ -560,147 +564,114 @@
     }
 
     function renderPrograms(){
-      const query = (q.value||'').trim().toLowerCase();
-      programsView.innerHTML = '';
-      let items = PROGRAMS.slice();
-      if(query) items = items.filter(p=> [p.title,p.summary,(p.bullets||[]).join(' ')].join(' ').toLowerCase().includes(query));
-      if(items.length===0){
-        const empty=document.createElement('div'); empty.className='card';
-        empty.innerHTML = '<div class="muted">No programs yet. Add items to PROGRAMS.</div>';
-        programsView.appendChild(empty); return;
-      }
-      items.forEach(p=>{
-        const card=document.createElement('article'); card.className='card';
-        const img = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
-        card.innerHTML = `
-          ${ img ? `<img class="thumb" src="${img}" alt="${p.title}">` : '<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#556">No image</div>' }
-          <div class="row"><div style="font-weight:700">${p.title}</div><span class="badge orange">${p.noEmails ? 'Info only' : 'Program'}</span></div>
-          <div class="muted">${p.summary||''}</div>
-          <div class="actions"><button class="btn primary">Open program</button></div>`;
-        card.querySelector('.primary').addEventListener('click',()=>{
-          pTitle.textContent = p.title;
-          pImg.src = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
-          pSummary.textContent = p.summary||'';
-          pBullets.innerHTML = (p.bullets||[]).map(b=>`<li>${b}</li>`).join('');
-          pEmails.innerHTML = '';
+  const query = (q.value||'').trim().toLowerCase();
+  const selectedProgId = progFilterSel.value;   // <- use the dropdown on Programs tab
+  const sort = sortSel.value;
 
-          // If program has no emails (router), show explanation and hide list title
-          if(p.noEmails){
-            pEmailsTitle.textContent = "About this program";
-            const info=document.createElement('div'); info.className='card';
-            info.innerHTML = '<div class="muted">This flow acts as a traffic controller that routes shoppers to category-specific campaigns outside this program. No emails are sent directly by this canvas.</div>';
-            pEmails.appendChild(info);
-          } else {
-            pEmailsTitle.textContent = "Included Emails";
-            const matched = emailsForProgram(p.id);
-            if(matched.length===0){
-              const empty=document.createElement('div'); empty.className='card';
-              empty.innerHTML = '<div class="muted">No mapped emails yet (add EMAILS with matching category).</div>';
-              pEmails.appendChild(empty);
-            }else{
-              matched.forEach(e=>{
-                const href = buildHref(e.path);
-                const el=document.createElement('article'); el.className='card';
-                const isPH = !!e.placeholder;
-                el.innerHTML = `
-                  <div class="row">
-                    <div style="font-weight:700">${e.id.replaceAll('_',' ')}</div>
-                    <div class="badge">${e.type}</div>
-                    ${isPH ? '<div class="badge orange">Placeholder</div>' : ''}
-                  </div>
-                  <div class="meta">
-                    <span class="badge">${formatDate(e.date)}</span>
-                    ${(e.tags||[]).map(t=>`<span class="badge">#${t}</span>`).join('')}
-                  </div>
-                  <div class="actions">
-                    <button class="btn primary ${isPH?'disabled':''}">View</button>
-                    <button class="btn ${isPH?'disabled':''}">Copy link</button>
-                  </div>
-                  ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }`;
-                if(!isPH){
-                  el.querySelector('.primary').addEventListener('click', async ()=>{
-                    if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
-                    openEmailOverlay(e.id.replaceAll('_',' '), href);
-                  });
-                  el.querySelector('.btn:not(.primary)').addEventListener('click',()=> copyToClipboard(location.origin + href));
-                }
-                pEmails.appendChild(el);
+  programsView.innerHTML = '';
+  let items = PROGRAMS.slice();
+
+  // search filter
+  if(query){
+    items = items.filter(p =>
+      [p.title, p.summary, (p.bullets||[]).join(' ')].join(' ').toLowerCase().includes(query)
+    );
+  }
+
+  // program dropdown filter (show just the chosen program)
+  if (selectedProgId) {
+    items = items.filter(p => p.id === selectedProgId);
+  }
+
+  // sorting – only “Name A→Z” is meaningful for programs
+  if (sort === 'name_asc') {
+    items.sort((a,b) => a.title.localeCompare(b.title));
+  }
+
+  if(items.length===0){
+    const empty=document.createElement('div'); empty.className='card';
+    empty.innerHTML = '<div class="muted">No programs match your filters.</div>';
+    programsView.appendChild(empty); return;
+  }
+
+  items.forEach(p=>{
+    const card=document.createElement('article'); card.className='card';
+    const img = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
+    card.innerHTML = `
+      ${ img ? `<img class="thumb" src="${img}" alt="${p.title}">`
+             : '<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#556">No image</div>' }
+      <div class="row">
+        <div style="font-weight:700">${p.title}</div>
+        <span class="badge orange">${p.noEmails ? 'Info only' : 'Program'}</span>
+      </div>
+      <div class="muted">${p.summary||''}</div>
+      <div class="actions"><button class="btn primary">Open program</button></div>`;
+
+    card.querySelector('.primary').addEventListener('click',()=>{
+      pTitle.textContent = p.title;
+      pImg.src = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
+      pSummary.textContent = p.summary||'';
+      pBullets.innerHTML = (p.bullets||[]).map(b=>`<li>${b}</li>`).join('');
+      pEmails.innerHTML = '';
+
+      if(p.noEmails){
+        pEmailsTitle.textContent = "About this program";
+        const info=document.createElement('div'); info.className='card';
+        info.innerHTML = '<div class="muted">This flow acts as a traffic controller that routes shoppers to category-specific campaigns outside this program. No emails are sent directly by this canvas.</div>';
+        pEmails.appendChild(info);
+      } else {
+        pEmailsTitle.textContent = "Included Emails";
+        const matched = emailsForProgram(p.id);
+        if(matched.length===0){
+          const empty=document.createElement('div'); empty.className='card';
+          empty.innerHTML = '<div class="muted">No mapped emails yet (add EMAILS with matching category).</div>';
+          pEmails.appendChild(empty);
+        }else{
+          matched.forEach(e=>{
+            const href = buildHref(e.path);
+            const el=document.createElement('article'); el.className='card';
+            const isPH = !!e.placeholder;
+            el.innerHTML = `
+              <div class="row">
+                <div style="font-weight:700">${e.id.replaceAll('_',' ')}</div>
+                <div class="badge">${e.type}</div>
+                ${isPH ? '<div class="badge orange">Placeholder</div>' : ''}
+              </div>
+              <div class="meta">
+                <span class="badge">${formatDate(e.date)}</span>
+                ${(e.tags||[]).map(t=>`<span class="badge">#${t}</span>`).join('')}
+              </div>
+              <div class="actions">
+                <button class="btn primary ${isPH?'disabled':''}">View</button>
+                <button class="btn ${isPH?'disabled':''}">Copy link</button>
+              </div>
+              ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }`;
+            if(!isPH){
+              el.querySelector('.primary').addEventListener('click', async ()=>{
+                if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
+                openEmailOverlay(e.id.replaceAll('_',' '), href);
               });
+              el.querySelector('.btn:not(.primary)').addEventListener('click',()=> copyToClipboard(location.origin + href));
             }
-          }
-          pOverlay.classList.add('show'); pOverlay.setAttribute('aria-hidden','false');
-        });
-        programsView.appendChild(card);
-      });
-    }
-
-    function renderEmails(){
-      const query  = (q.value||'').trim().toLowerCase();
-      const type   = typeSel.value;
-      const sort   = sortSel.value;
-      const progId = progFilterSel.value;
-
-      let rows = EMAILS.slice();
-      if(progId){
-        const ids = new Set(emailsForProgram(progId).map(e=>e.id));
-        rows = rows.filter(e=>ids.has(e.id));
-      }
-      rows = rows.filter(e=>{
-        const inType = !type || e.type===type;
-        const hay = [e.id,(e.category||[]).join(' '),(e.tags||[]).join(' '),e.notes||''].join(' ').toLowerCase();
-        return inType && (!query || hay.includes(query));
-      });
-      rows.sort((a,b)=>{ if(sort==='name_asc') return a.id.localeCompare(b.id); if(sort==='date_asc') return a.date.localeCompare(b.date); return b.date.localeCompare(a.date); });
-
-      emailsView.innerHTML='';
-      if(rows.length===0){
-        const empty=document.createElement('div'); empty.className='card';
-        empty.innerHTML = '<div class="muted">No emails match your filters.</div>';
-        emailsView.appendChild(empty); return;
-      }
-      rows.forEach(e=>{
-        const href = buildHref(e.path);
-        const isPH = !!e.placeholder;
-        const card=document.createElement('article'); card.className='card';
-        card.innerHTML = `
-          <div class="row">
-            <div style="font-weight:700">${e.id.replaceAll('_',' ')}</div>
-            <div class="badge" title="${e.type}">${e.type}</div>
-            ${isPH ? '<div class="badge orange">Placeholder</div>' : ''}
-          </div>
-          <div class="meta">
-            <span class="badge" title="Date">${formatDate(e.date)}</span>
-            ${(e.category||[]).map(c=>`<span class="badge">${c}</span>`).join('')}
-            ${(e.tags||[]).map(t=>`<span class="badge">#${t}</span>`).join('')}
-          </div>
-          <div class="code">${e.path}</div>
-          <div class="actions">
-            <button class="btn primary ${isPH?'disabled':''}">View</button>
-            <button class="btn ${isPH?'disabled':''}">Copy link</button>
-            <a class="btn ghost ${isPH?'disabled':''}" ${isPH?'tabindex="-1"':''} href="${isPH?'#':href}" ${isPH?'':'download'}>Download HTML</a>
-          </div>
-          ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }`;
-        if(!isPH){
-          card.querySelector('.primary').addEventListener('click', async ()=>{
-            if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
-            openEmailOverlay(e.id.replaceAll('_',' '), href);
+            pEmails.appendChild(el);
           });
-          card.querySelector('.btn:not(.primary)').addEventListener('click', ()=> copyToClipboard(location.origin + href));
         }
-        emailsView.appendChild(card);
-      });
-    }
+      }
 
-    function renderAll(){
-      const programsSelected = tabPrograms.getAttribute('aria-selected') === 'true';
-      programsView.style.display = programsSelected ? '' : 'none';
-      emailsView.style.display   = programsSelected ? 'none' : '';
-      programsSelected ? renderPrograms() : renderEmails();
-    }
+      pOverlay.classList.add('show'); pOverlay.setAttribute('aria-hidden','false');
+    });
+
+    programsView.appendChild(card);
+  });
+}
+
 
     // Tabs
     tabPrograms.addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','true'); tabEmails.setAttribute('aria-selected','false'); renderAll(); });
     tabEmails  .addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','false'); tabEmails .setAttribute('aria-selected','true');  renderAll(); });
+    pClose.addEventListener('click', closeProgramOverlay);
+pOverlay.addEventListener('click', (e)=>{ if(e.target===pOverlay) closeProgramOverlay(); });
+
 
     // Filters
     q.addEventListener('input', renderAll);
