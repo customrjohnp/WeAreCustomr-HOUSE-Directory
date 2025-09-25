@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- 
+  =============================================================
+  EMAIL DIRECTORY — PROGRAMS (HIGH-LEVEL) + EMAILS (DETAIL) VIEW
+  =============================================================
+  What changed:
+  • Added a top-level "Programs" view (e.g., Welcome Series, Abandoned Cart, Re‑engagement, etc.)
+  • Each Program card can open an overlay with: program screenshot + plain‑English logic + the emails that belong to it
+  • Kept the existing Emails view with overlay HTML preview
+  • Safe editing blocks marked  >>> EDIT HERE <<<
+
+  Folder suggestions:
+  /index.html                     (this file)
+  /emails/<Brand>/...             (all exported email .html files)
+  /programs/<Brand>/...           (PNG/JPG screenshots of Emarsys programs)
+
+  How the mapping works:
+  - PROGRAMS[*].categoryForEmails should match EMAILS[*].category entries (e.g., "Welcome Series", "Abandoned Cart")
+  - or, set PROGRAMS[*].emailIds to an array of EMAILS ids for a manual mapping
+  =============================================================
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email Directory — Customr</title>
+  <meta name="description" content="Self‑hosted directory of automation programs and email HTML previews." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0c0f;--panel:#111319;--muted:#a1a6b3;--text:#e9eef9;--brand:#5ad8e6;--ring:#4aa8b5;--mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),#0e1016 40%, #0b0c0f);color:var(--text)}
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:700}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px #2a3d43}
+    h1{font-size:clamp(22px,3vw,30px);margin:0}
+    .muted{color:var(--muted)}
+    .panel{background:var(--panel);border:1px solid #1c2230;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .tabs{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid #1c2230}
+    .tab{appearance:none;border:1px solid #243244;background:#0f1824;color:#d6e6ee;border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer}
+    .tab[aria-selected="true"]{background:linear-gradient(180deg,#1f9fb1,#197f8e);border-color:#266b76}
+    .toolbar{display:grid;grid-template-columns:1fr 150px 150px 150px;gap:10px;padding:14px}
+    .field{position:relative}
+    input[type="search"],select{width:100%;background:#0c0f16;border:1px solid #20293c;color:var(--text);padding:12px 14px;border-radius:10px;outline:none}
+    input[type="search"]:focus,select:focus{border-color:var(--ring);box-shadow:0 0 0 3px rgba(90,216,230,.15)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:14px}
+    .card{background:#0d1119;border:1px solid #1b2233;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;border:1px solid #263146;color:#bcd5dd;background:#0b141a;font-size:12px}
+    .meta{display:flex;flex-wrap:wrap;gap:6px}
+    .row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+    .code{font-family:var(--mono);font-size:12px;color:#cfeaf0;background:#0a1016;border:1px dashed #203041;border-radius:8px;padding:8px;overflow:auto}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{appearance:none;border:none;border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer;background:#0f1824;color:#d6e6ee;border:1px solid #243244}
+    .btn:hover{border-color:#2e4256}
+    .btn.primary{background:linear-gradient(180deg,#1f9fb1,#197f8e);border-color:#266b76}
+    .btn.ghost{background:transparent;border:1px dashed #2a3a4e}
+    details{margin-top:10px}
+    summary{cursor:pointer;color:#c9e9ee}
+
+    /* Program specific */
+    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid #1b2233;background:#0b0c0f}
+
+    /* Footer */
+    .footer{font-size:12px;padding:24px;text-align:center;background:#0b0c0f;border:1px solid #1c2230;border-radius:14px;margin:16px 0 0;color:var(--muted)}
+    .footer-inner{display:flex;flex-direction:column;gap:8px;align-items:center}
+    .footer-brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--text)}
+    .footer-nav a{color:#bcd5dd;text-decoration:none;margin:0 8px}
+    .footer-nav a:hover{text-decoration:underline}
+
+    /* Overlays */
+    .overlay{position:fixed;inset:0;display:none;background:rgba(0,0,0,.65);z-index:1000}
+    .overlay.show{display:block}
+    .ov-panel{position:absolute;inset:30px;display:flex;flex-direction:column;background:#0c0f16;border:1px solid #1c2230;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+    .ov-bar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1c2230;padding:10px 12px}
+    .ov-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ov-actions{display:flex;gap:8px}
+    .ov-iframe{border:0;width:100%;height:calc(100% - 48px);background:white}
+    .ov-content{padding:14px;overflow:auto;height:calc(100% - 48px)}
+    .ov-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}
+    .close-x{background:transparent;border:1px solid #2a3a4e;border-radius:8px;color:#d6e6ee;padding:8px 10px;cursor:pointer}
+    @media (max-width:900px){
+      .toolbar{grid-template-columns:1fr 1fr 1fr}
+      .ov-cols{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand"><span class="dot" aria-hidden="true"></span><h1>Email Directory</h1></div>
+      <div class="muted">Automation programs • Email previews</div>
+    </header>
+
+    <section class="panel" aria-labelledby="filters-heading">
+      <div class="tabs" role="tablist">
+        <button id="tab-programs" class="tab" role="tab" aria-controls="programs-view" aria-selected="true">Programs</button>
+        <button id="tab-emails" class="tab" role="tab" aria-controls="emails-view" aria-selected="false">Emails</button>
+      </div>
+
+      <h2 id="filters-heading" class="visually-hidden" style="position:absolute;left:-9999px">Filters</h2>
+      <div class="toolbar">
+        <!-- >>> EDIT HERE (optional placeholder): You may change the placeholder text only. -->
+        <label class="field"><input type="search" id="q" placeholder="Search… e.g., Welcome Series, Abandoned Cart, VIP" aria-label="Search" /></label>
+        <!-- No edits needed below unless you want to change option lists in BRANDS_PRESET or TYPES_PRESET. -->
+        <label class="field"><select id="brand"><option value="">All brands</option></select></label>
+        <label class="field"><select id="type"><option value="">All types</option></select></label>
+        <label class="field"><select id="sort">
+          <option value="date_desc">Newest first</option>
+          <option value="date_asc">Oldest first</option>
+          <option value="name_asc">Name A→Z</option>
+        </select></label>
+      </div>
+
+      <div id="programs-view" class="grid" aria-live="polite"></div>
+      <div id="emails-view" class="grid" aria-live="polite" style="display:none"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand"><span class="dot" aria-hidden="true"></span>WeAreCustomr</div>
+        <nav class="footer-nav" aria-label="WeAreCustomr links">
+          <a href="https://www.wearecustomr.com.au/" target="_blank" rel="noopener">Website</a>
+          <a href="https://www.wearecustomr.com.au/data-insights" target="_blank" rel="noopener">Data & Insights</a>
+          <a href="https://www.wearecustomr.com.au/crm" target="_blank" rel="noopener">CRM</a>
+          <a href="https://www.wearecustomr.com.au/loyalty" target="_blank" rel="noopener">Loyalty</a>
+          <a href="https://www.wearecustomr.com.au/technology" target="_blank" rel="noopener">Technology</a>
+        </nav>
+        <div class="footer-legal">© <span id="year"></span> WeAreCustomr. All rights reserved.</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===== Overlays ===== -->
+  <!-- Email preview overlay (iframe) -->
+  <div id="overlay" class="overlay" aria-hidden="true">
+    <div class="ov-panel" role="dialog" aria-modal="true" aria-labelledby="ov-title">
+      <div class="ov-bar">
+        <div id="ov-title" class="ov-title">Preview</div>
+        <div class="ov-actions">
+          <a id="ov-open" class="btn" href="#" target="_blank" rel="noopener">Open in new tab</a>
+          <a id="ov-download" class="btn ghost" href="#" download>Download HTML</a>
+          <button id="ov-close" class="close-x" aria-label="Close">Close</button>
+        </div>
+      </div>
+      <iframe id="ov-frame" class="ov-iframe" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- Program overlay (image + logic + list of emails) -->
+  <div id="prog-overlay" class="overlay" aria-hidden="true">
+    <div class="ov-panel" role="dialog" aria-modal="true" aria-labelledby="prog-title">
+      <div class="ov-bar">
+        <div id="prog-title" class="ov-title">Program</div>
+        <div class="ov-actions">
+          <button id="prog-close" class="close-x" aria-label="Close">Close</button>
+        </div>
+      </div>
+      <div class="ov-content">
+        <div class="ov-cols">
+          <div>
+            <img id="prog-img" class="thumb" alt="Program screenshot" />
+          </div>
+          <div>
+            <div id="prog-summary" class="muted" style="margin-bottom:8px"></div>
+            <ul id="prog-bullets" style="margin:0 0 12px 18px"></ul>
+            <div style="font-weight:700;margin:8px 0">Included Emails</div>
+            <div id="prog-emails" class="grid" style="grid-template-columns:1fr"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =============================================================
+    // PRESETS — EDIT SAFELY
+    // =============================================================
+
+    /* >>> BRANDS PRESET — EDIT HERE (optional) <<< */
+    const BRANDS_PRESET = [
+      "House", "MyHouse", "Robin's Kitchen", "Bessemer", "Gazman",
+      "Perri Cutten", "Viktoria & Woods", "Therapy Shoes", "Cable Melbourne"
+    ];
+
+    /* >>> TYPES PRESET — EDIT HERE (optional) <<< */
+    const TYPES_PRESET = ["Marketing", "Automation", "Transactional"];
+
+    // =============================================================
+    // PROGRAMS — EDIT HERE
+    // One card per high-level program. Use either categoryForEmails OR emailIds.
+    // image: place PNG/JPG in /programs/<Brand>/ and reference the path.
+    // =============================================================
+
+    const PROGRAMS = [
+      {
+        id: "house_welcome_series",
+        brand: "House",
+        title: "[FUTURE STATE] Welcome Series (Online & In Store)",
+        categoryForEmails: "Welcome Series", // matches EMAILS.category
+        image: "programs/House/welcome_series_online_instore.png",
+        summary: "Introduces new subscribers and recent purchasers, splits by acquisition source and purchase state, and delivers 3-step sequences for Lead vs Customer with voucher logic.",
+        bullets: [
+          "Entry: New Contact → Acquisition Source Online / In‑Store",
+          "Checks: Email opt‑in & validity, VIP join date, purchase last 3–7 days",
+          "Branches: Customer Emails 1–2 vs Lead Emails 1–3 with timed waits",
+          "Loyalty onboarding path for eligible contacts",
+          "Exclusions: staff/internal segments, invalid emails, recent purchasers per step"
+        ]
+      },
+      {
+        id: "house_abandoned_cart_adv",
+        brand: "House",
+        title: "[FUTURE STATE] Fast Abandoned Cart — Advanced",
+        categoryForEmails: "Abandoned Cart",
+        image: "programs/House/abandoned_cart_advanced.png",
+        summary: "Accelerated cart recovery with multi‑step reminders, stock/price checks and VIP/loyalty treatments.",
+        bullets: [
+          "Triggers on cart events; filters out recent purchasers",
+          "Dynamic product recommendations; voucher variants for VIP",
+          "Wait logic tuned for onsite/in‑store crossover",
+          "Strict exclusion of staff/test users"
+        ]
+      },
+      {
+        id: "house_reengagement",
+        brand: "House",
+        title: "[FUTURE STATE] Re‑Engagement Flow",
+        categoryForEmails: "Re‑Engagement",
+        image: "programs/House/reengagement.png",
+        summary: "Wins back disengaged profiles with progressive offers and content.",
+        bullets: [
+          "Segment ladder: Mild → Moderate → Severe",
+          "Content shifts from value messaging to incentive",
+          "Stop rules on re‑open, click or purchase"
+        ]
+      }
+      // Add more programs here…
+    ];
+
+    // =============================================================
+    // EMAILS — EDIT HERE
+    // If you forget .html at the end of path, we will add it for preview/copy/download.
+    // =============================================================
+
+    const EMAILS = [
+      {
+        id: "Auto_WelcomeSeries_Online_Lead_Email_01",
+        brand: "House",
+        type: "Automation",
+        date: "2025-09-22",
+        category: ["Welcome Series","Online"],
+        tags: ["Automation","Lead Email 1"],
+        path: "Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Lead_Email_01",
+        notes: "Welcome Series Email 01 — intro hero, $20 off WELCOME20 (2wks), value props, dynamic recs, rewards CTA"
+      },
+      {
+        id: "Auto_WelcomeSeries_Online_Lead_Email_02",
+        brand: "House",
+        type: "Automation",
+        date: "2025-09-10",
+        category: ["Welcome Series"],
+        tags: ["Automation","Lead Email 2"],
+        path: "Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Lead_Email_02",
+        notes: "Welcome Series Email 02 — lifestyle hero, brand highlights (Tramontina, Baccarat Le Connoisseur, Alex Liddy, Ecology, Adorn, Bambury), reminder: $20 off WELCOME20 (2wks, $80 min, online only, excl Hot Offers), USPs + shop‑by‑category tiles"
+      },
+      {
+        id: "Auto_WelcomeSeries_Online_Lead_Email_03",
+        brand: "House",
+        type: "Automation",
+        date: "2025-09-18",
+        category: ["Welcome Series"],
+        tags: ["Automation","Lead Email 3"],
+        path: "Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Lead_Email_03",
+        notes: "Story tile + editorial section"
+      },
+      {
+        id: "Auto_WelcomeSeries_Online_Customer_Email_01",
+        brand: "House",
+        type: "Automation",
+        date: "2025-08-30",
+        category: ["Welcome Series"],
+        tags: ["Automation","Customer Email 1"],
+        path: "Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Customer_Email_01",
+        notes: "Welcome Series (Customer) Email 01 — post‑purchase welcome, hero + thank you copy, ‘Discover more to love’ CTA, USPs (30‑day returns, free ship $130+, 100+ stores), ‘Why shop with House?’ tiles, Predict x3, Rewards banner, Top Brands, Categories"
+      }
+    ];
+
+    // =============================================================
+    // BELOW THIS LINE — LOGIC (DO NOT EDIT)
+    // =============================================================
+
+    const q = document.getElementById('q');
+    const brandSelect = document.getElementById('brand');
+    const typeSel = document.getElementById('type');
+    const sortSel = document.getElementById('sort');
+    const programsView = document.getElementById('programs-view');
+    const emailsView = document.getElementById('emails-view');
+
+    const tabPrograms = document.getElementById('tab-programs');
+    const tabEmails = document.getElementById('tab-emails');
+
+    const overlay = document.getElementById('overlay');
+    const ovTitle = document.getElementById('ov-title');
+    const ovFrame = document.getElementById('ov-frame');
+    const ovOpen  = document.getElementById('ov-open');
+    const ovDown  = document.getElementById('ov-download');
+    const ovClose = document.getElementById('ov-close');
+
+    const pOverlay = document.getElementById('prog-overlay');
+    const pTitle = document.getElementById('prog-title');
+    const pImg = document.getElementById('prog-img');
+    const pSummary = document.getElementById('prog-summary');
+    const pBullets = document.getElementById('prog-bullets');
+    const pEmails = document.getElementById('prog-emails');
+    const pClose = document.getElementById('prog-close');
+
+    // Build brand/type options
+    const detectedBrands = Array.from(new Set([...EMAILS.map(e=>e.brand), ...PROGRAMS.map(p=>p.brand)].filter(Boolean)));
+    const brands = Array.from(new Set([...(BRANDS_PRESET||[]), ...detectedBrands])).sort();
+    brands.forEach(b=>{ const o=document.createElement('option'); o.textContent=b; o.value=b; brandSelect.appendChild(o); });
+
+    const detectedTypes = Array.from(new Set(EMAILS.map(e=>e.type).filter(Boolean)));
+    const types = Array.from(new Set([...(TYPES_PRESET||["Marketing","Automation","Transactional"]), ...detectedTypes])).sort();
+    types.forEach(t=>{ const o=document.createElement('option'); o.textContent=t; o.value=t; typeSel.appendChild(o); });
+
+    const basePath = location.pathname.replace(/index\.html?$/,'');
+    function buildHref(rawPath){
+      let p = (rawPath||'').trim();
+      if(!p) return '';
+      if(!/\.[a-z0-9]+$/i.test(p)) p += '.html';
+      p = p.split('/').map(seg => encodeURIComponent(seg)).join('/');
+      return basePath + p;
+    }
+
+    function formatDate(iso){
+      if(!iso) return "";
+      const d = new Date(iso+"T00:00:00Z");
+      return isNaN(d) ? iso : d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'2-digit'});
+    }
+
+    function copyToClipboard(text){
+      navigator.clipboard.writeText(text).then(()=>{ alert('Link copied to clipboard'); }).catch(()=>{});
+    }
+
+    function validateEmail(entry){
+      const errors = [];
+      if(!entry || typeof entry!== 'object') errors.push('Entry is not an object');
+      if(!entry.id) errors.push('Missing id');
+      if(!entry.brand) errors.push('Missing brand');
+      if(!entry.type) errors.push('Missing type');
+      if(!entry.date) errors.push('Missing date');
+      if(!entry.path) errors.push('Missing path');
+      return errors;
+    }
+
+    function openEmailOverlay(title, href){
+      ovTitle.textContent = title;
+      ovFrame.src = href;
+      ovOpen.href = href;
+      ovDown.href = href;
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden','false');
+    }
+    function closeEmailOverlay(){
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden','true');
+      ovFrame.removeAttribute('src');
+    }
+    ovClose.addEventListener('click', closeEmailOverlay);
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeEmailOverlay(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') { closeEmailOverlay(); closeProgramOverlay(); } });
+
+    function openProgramOverlay(prog){
+      pTitle.textContent = prog.title;
+      pImg.src = prog.image ? (basePath + prog.image.split('/').map(encodeURIComponent).join('/')) : '';
+      pSummary.textContent = prog.summary || '';
+      pBullets.innerHTML = (prog.bullets||[]).map(b=>`<li>${b}</li>`).join('');
+
+      // Find emails that belong to this program
+      let matched = [];
+      if(prog.emailIds && prog.emailIds.length){
+        const set = new Set(prog.emailIds);
+        matched = EMAILS.filter(e=>set.has(e.id));
+      } else if(prog.categoryForEmails){
+        matched = EMAILS.filter(e=> (e.category||[]).includes(prog.categoryForEmails) && (!brandSelect.value || e.brand===brandSelect.value) );
+      }
+
+      pEmails.innerHTML = '';
+      if(matched.length===0){
+        const empty = document.createElement('div');
+        empty.className='card';
+        empty.innerHTML = '<div class="muted">No mapped emails yet. Add EMAILS entries with matching category or specify program.emailIds.</div>';
+        pEmails.appendChild(empty);
+      } else {
+        matched.forEach(e=>{
+          const href = buildHref(e.path);
+          const card = document.createElement('article');
+          card.className='card';
+          card.innerHTML = `
+            <div class="row"><div style="font-weight:700">${e.id.replaceAll('_',' ')}</div><div class="badge">${e.type}</div></div>
+            <div class="meta">
+              <span class="badge">${e.brand}</span>
+              <span class="badge">${formatDate(e.date)}</span>
+              ${ (e.tags||[]).map(t=>`<span class=badge>#${t}</span>`).join('') }
+            </div>
+            <div class="actions">
+              <button class="btn primary">View</button>
+              <button class="btn copy">Copy link</button>
+            </div>
+            ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }
+          `;
+          card.querySelector('.primary').addEventListener('click',()=> openEmailOverlay(e.id.replaceAll('_',' '), href));
+          card.querySelector('.copy').addEventListener('click',()=> copyToClipboard(location.origin + href));
+          pEmails.appendChild(card);
+        });
+      }
+
+      pOverlay.classList.add('show');
+      pOverlay.setAttribute('aria-hidden','false');
+    }
+    function closeProgramOverlay(){
+      pOverlay.classList.remove('show');
+      pOverlay.setAttribute('aria-hidden','true');
+      pImg.removeAttribute('src');
+    }
+    pClose.addEventListener('click', closeProgramOverlay);
+    pOverlay.addEventListener('click', (e)=>{ if(e.target===pOverlay) closeProgramOverlay(); });
+
+    function renderPrograms(){
+      const query = (q.value||'').trim().toLowerCase();
+      const brand = brandSelect.value;
+
+      let items = PROGRAMS.filter(p=> !brand || p.brand===brand);
+      if(query){
+        items = items.filter(p=> [p.title,p.summary,(p.bullets||[]).join(' ')].join(' ').toLowerCase().includes(query));
+      }
+
+      programsView.innerHTML = '';
+      if(items.length===0){
+        const empty = document.createElement('div'); empty.className='card';
+        empty.innerHTML = '<div class="muted">No programs yet. Add items to PROGRAMS (look for » PROGRAMS — EDIT HERE «).</div>';
+        programsView.appendChild(empty); return;
+      }
+
+      items.forEach(p=>{
+        const card = document.createElement('article'); card.className='card';
+        const img = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
+        card.innerHTML = `
+          ${ img ? `<img class="thumb" src="${img}" alt="${p.title}">` : '<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#556">No image</div>' }
+          <div class="row"><div style="font-weight:700">${p.title}</div><span class="badge">${p.brand}</span></div>
+          <div class="muted">${p.summary||''}</div>
+          <div class="actions"><button class="btn primary">Open program</button></div>
+        `;
+        card.querySelector('.primary').addEventListener('click',()=> openProgramOverlay(p));
+        programsView.appendChild(card);
+      });
+    }
+
+    function renderEmails(){
+      const query = (q.value||'').trim().toLowerCase();
+      const brand = brandSelect.value;
+      const type = typeSel.value;
+      const sort = sortSel.value;
+
+      let rows = EMAILS.slice();
+      const validated = [];
+      rows.forEach((e,i)=>{ const errs = validateEmail(e); if(!errs.length) validated.push(e); });
+
+      rows = validated.filter(e=>{
+        const inBrand = !brand || e.brand===brand;
+        const inType = !type || e.type===type;
+        const hay = [e.id, e.brand, e.type, (e.category||[]).join(' '), (e.tags||[]).join(' '), e.notes||''].join(' ').toLowerCase();
+        const inQuery = !query || hay.includes(query);
+        return inBrand && inType && inQuery;
+      });
+
+      rows.sort((a,b)=>{ if(sort==='name_asc') return a.id.localeCompare(b.id); if(sort==='date_asc') return a.date.localeCompare(b.date); return b.date.localeCompare(a.date); });
+
+      emailsView.innerHTML = '';
+      if(rows.length===0){
+        const empty = document.createElement('div'); empty.className='card';
+        empty.innerHTML = '<div class="muted">No emails match your filters. Add items to the EMAILS block.</div>';
+        emailsView.appendChild(empty); return;
+      }
+
+      rows.forEach(e=>{
+        const card = document.createElement('article'); card.className='card';
+        const safeId = (e.id||'').replaceAll('_',' ');
+        const href = buildHref(e.path);
+        card.innerHTML = `
+          <div class="row"><div style="font-weight:700">${safeId}</div><div class="badge" title="${e.type}">${e.type}</div></div>
+          <div class="meta">
+            <span class="badge" title="Brand">${e.brand}</span>
+            <span class="badge" title="Date">${formatDate(e.date)}</span>
+            ${ (e.category||[]).map(c=>`<span class="badge">${c}</span>`).join('') }
+            ${ (e.tags||[]).map(t=>`<span class="badge">#${t}</span>`).join('') }
+          </div>
+          <div class="code">${e.path}</div>
+          <div class="actions">
+            <button class="btn primary view-btn">View</button>
+            <button class="btn copy-btn">Copy link</button>
+            <a class="btn ghost dl-btn" href="${href}" download>Download HTML</a>
+          </div>
+          ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }
+        `;
+        card.querySelector('.view-btn').addEventListener('click', ()=> openEmailOverlay(safeId, href));
+        card.querySelector('.copy-btn').addEventListener('click', ()=> copyToClipboard(location.origin + href));
+        emailsView.appendChild(card);
+      });
+    }
+
+    function renderAll(){
+      // toggle views
+      const programsSelected = tabPrograms.getAttribute('aria-selected') === 'true';
+      programsView.style.display = programsSelected ? '' : 'none';
+      emailsView.style.display = programsSelected ? 'none' : '';
+      programsSelected ? renderPrograms() : renderEmails();
+    }
+
+    // Tabs logic
+    tabPrograms.addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','true'); tabEmails.setAttribute('aria-selected','false'); renderAll(); });
+    tabEmails.addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','false'); tabEmails.setAttribute('aria-selected','true'); renderAll(); });
+
+    // Filters
+    q.addEventListener('input', renderAll);
+    brandSelect.addEventListener('change', renderAll);
+    typeSel.addEventListener('change', renderAll);
+    sortSel.addEventListener('change', renderAll);
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Initial render
+    renderAll();
+  </script>
+</body>
+</html>
