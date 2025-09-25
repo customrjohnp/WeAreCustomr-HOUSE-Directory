@@ -8,49 +8,104 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root{--bg:#0b0c0f;--panel:#111319;--muted:#a1a6b3;--text:#e9eef9;--brand:#5ad8e6;--ring:#4aa8b5;--mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
+    /* ===== THEME: Customr orange + black ===== */
+    :root{
+      --bg:#0b0c0f;
+      --panel:#0f1115;
+      --muted:#bfc5d1;
+      --text:#f7f8fb;
+      --brand:#ff6a00;           /* Customr orange */
+      --brand-2:#cc5400;         /* darker orange */
+      --ring:#ffb072;            /* focus ring tint */
+      --stroke:#1d2433;
+      --mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
+
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),#0e1016 40%, #0b0c0f);color:var(--text)}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:linear-gradient(180deg,var(--bg),#0c0f14 40%, #090b0f);
+      color:var(--text)
+    }
+
     .container{max-width:1200px;margin:0 auto;padding:24px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
     .brand{display:flex;gap:10px;align-items:center;font-weight:700}
-    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px #2a3d43}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px rgba(255,106,0,.25)}
     h1{font-size:clamp(22px,3vw,30px);margin:0}
     .muted{color:var(--muted)}
-    .panel{background:var(--panel);border:1px solid #1c2230;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
-    .tabs{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid #1c2230}
-    .tab{appearance:none;border:1px solid #243244;background:#0f1824;color:#d6e6ee;border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer}
-    .tab[aria-selected="true"]{background:linear-gradient(180deg,#1f9fb1,#197f8e);border-color:#266b76}
+
+    /* House × Customr banner placeholder */
+    .brandbar{
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(90deg, rgba(255,106,0,.2), rgba(255,106,0,.05));
+      border:1px solid var(--stroke);
+      border-radius:14px;
+      padding:14px;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .brandbar .tag{
+      padding:6px 10px;border:1px solid rgba(255,106,0,.35);
+      border-radius:999px;font-weight:600;color:#ffd1b2;background:rgba(255,106,0,.08)
+    }
+    .brandbar img{max-height:44px}
+
+    .panel{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .tabs{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid var(--stroke)}
+    .tab{
+      appearance:none;border:1px solid var(--stroke);background:#0b0e14;color:#e9eef7;
+      border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer
+    }
+    .tab[aria-selected="true"]{
+      background:linear-gradient(180deg,var(--brand),var(--brand-2));border-color:#9b4a15;color:white
+    }
+
     .toolbar{display:grid;grid-template-columns:1fr 200px 150px 150px;gap:10px;padding:14px}
     .field{position:relative}
-    input[type="search"],select{width:100%;background:#0c0f16;border:1px solid #20293c;color:var(--text);padding:12px 14px;border-radius:10px;outline:none}
-    input[type="search"]:focus,select:focus{border-color:var(--ring);box-shadow:0 0 0 3px rgba(90,216,230,.15)}
+    input[type="search"],select{
+      width:100%;background:#0b0e14;border:1px solid var(--stroke);color:var(--text);
+      padding:12px 14px;border-radius:10px;outline:none
+    }
+    input[type="search"]:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(255,106,0,.20)}
+
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:14px}
-    .card{background:#0d1119;border:1px solid #1b2233;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
-    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;border:1px solid #263146;color:#bcd5dd;background:#0b141a;font-size:12px}
+    .card{background:#0c0f16;border:1px solid #1a2130;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;border:1px solid #2a354a;color:#f1f4fb;background:#0b141a;font-size:12px}
+    .badge.orange{border-color:rgba(255,106,0,.35);color:#ffd7bf;background:rgba(255,106,0,.08)}
     .meta{display:flex;flex-wrap:wrap;gap:6px}
     .row{display:flex;gap:8px;align-items:center;justify-content:space-between}
-    .code{font-family:var(--mono);font-size:12px;color:#cfeaf0;background:#0a1016;border:1px dashed #203041;border-radius:8px;padding:8px;overflow:auto}
+    .code{font-family:var(--mono);font-size:12px;color:#dbe7ef;background:#0a1016;border:1px dashed #203041;border-radius:8px;padding:8px;overflow:auto}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
-    .btn{appearance:none;border:none;border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer;background:#0f1824;color:#d6e6ee;border:1px solid #243244}
+    .btn{
+      appearance:none;border:none;border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer;
+      background:#0f1824;color:#d6e6ee;border:1px solid #243244
+    }
     .btn:hover{border-color:#2e4256}
-    .btn.primary{background:linear-gradient(180deg,#1f9fb1,#197f8e);border-color:#266b76}
+    .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand-2));border-color:#9b4a15}
     .btn.ghost{background:transparent;border:1px dashed #2a3a4e}
+    .btn.disabled{opacity:.5;cursor:not-allowed}
+
     .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid #1b2233;background:#0b0c0f}
 
-    .footer{font-size:12px;padding:24px;text-align:center;background:#0b0c0f;border:1px solid #1c2230;border-radius:14px;margin:16px 0 0;color:var(--muted)}
+    /* Footer */
+    .footer{font-size:12px;padding:24px;text-align:center;background:#0b0c0f;border:1px solid var(--stroke);border-radius:14px;margin:16px 0 0;color:var(--muted)}
     .footer-inner{display:flex;flex-direction:column;gap:8px;align-items:center}
     .footer-brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--text)}
-    .footer-nav a{color:#bcd5dd;text-decoration:none;margin:0 8px}
+    .footer-nav a{color:#ffd7bf;text-decoration:none;margin:0 8px}
     .footer-nav a:hover{text-decoration:underline}
 
+    /* Overlays */
     .overlay{position:fixed;inset:0;display:none;background:rgba(0,0,0,.65);z-index:1000}
-    #overlay{z-index:1100;}
+    #overlay{z-index:1100;} /* email preview above program overlay */
     .overlay.show{display:block}
-    .ov-panel{position:absolute;inset:30px;display:flex;flex-direction:column;background:#0c0f16;border:1px solid #1c2230;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
-    .ov-bar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1c2230;padding:10px 12px}
+    .ov-panel{position:absolute;inset:30px;display:flex;flex-direction:column;background:#0c0f16;border:1px solid var(--stroke);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+    .ov-bar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--stroke);padding:10px 12px}
     .ov-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .ov-actions{display:flex;gap:8px}
     .ov-iframe{border:0;width:100%;height:calc(100% - 48px);background:white}
@@ -67,8 +122,16 @@
   <div class="container">
     <header>
       <div class="brand"><span class="dot" aria-hidden="true"></span><h1>Email Directory</h1></div>
-      <div class="muted">Automation programs • Email previews - By Customr</div>
+      <div class="muted">Automation programs • Email previews — By Customr</div>
     </header>
+
+    <!-- House × Customr banner (swap image when ready, or keep text) -->
+    <section class="brandbar" aria-label="House × Customr">
+      <!-- Optional image placeholder -->
+      <!-- <img src="assets/house-x-customr-banner.png" alt="House × Customr"> -->
+      <span class="tag">House × Customr</span>
+      <div class="muted">Partnership workspace — previews, program maps & shareable links</div>
+    </section>
 
     <section class="panel" aria-labelledby="filters-heading">
       <div class="tabs" role="tablist">
@@ -92,6 +155,7 @@
       <div id="emails-view" class="grid" aria-live="polite" style="display:none"></div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="footer">
       <div class="footer-inner">
         <div class="footer-brand"><span class="dot" aria-hidden="true"></span>WeAreCustomr</div>
@@ -107,7 +171,7 @@
     </footer>
   </div>
 
-  <!-- Email preview overlay -->
+  <!-- ===== Email preview overlay (iframe) ===== -->
   <div id="overlay" class="overlay" aria-hidden="true">
     <div class="ov-panel" role="dialog" aria-modal="true" aria-labelledby="ov-title">
       <div class="ov-bar">
@@ -122,7 +186,7 @@
     </div>
   </div>
 
-  <!-- Program overlay -->
+  <!-- ===== Program overlay (image + logic + list of emails) ===== -->
   <div id="prog-overlay" class="overlay" aria-hidden="true">
     <div class="ov-panel" role="dialog" aria-modal="true" aria-labelledby="prog-title">
       <div class="ov-bar">
@@ -135,7 +199,7 @@
           <div>
             <div id="prog-summary" class="muted" style="margin-bottom:8px"></div>
             <ul id="prog-bullets" style="margin:0 0 12px 18px"></ul>
-            <div style="font-weight:700;margin:8px 0">Included Emails</div>
+            <div id="prog-emails-title" style="font-weight:700;margin:8px 0">Included Emails</div>
             <div id="prog-emails" class="grid" style="grid-template-columns:1fr"></div>
           </div>
         </div>
@@ -144,8 +208,11 @@
   </div>
 
   <script>
+    /* ===== PRESETS (types) ===== */
     const TYPES_PRESET = ["Marketing","Automation","Transactional"];
 
+    /* ===== PROGRAMS (House) =====
+       noEmails:true = program acts as router/traffic-controller; show info only */
     const PROGRAMS = [
       {
         id: "house_welcome_series",
@@ -163,7 +230,7 @@
       },
       {
         id: "house_abandoned_cart_adv",
-        title: "[FUTURE STATE] Fast Abandoned Cart - Advanced",
+        title: "[FUTURE STATE] Fast Abandoned Cart — Advanced",
         categoryForEmails: "Abandoned Cart",
         image: "House/Program Screenshots/[FUTURE STATE] Fast Abandoned Cart - Advanced.png",
         summary: "Accelerated cart recovery with multi-step reminders, VIP handling, dynamic product blocks.",
@@ -172,6 +239,18 @@
           "Dynamic product recs; VIP voucher branch",
           "Tuned waits and stop rules",
           "Strict staff/test exclusions"
+        ]
+      },
+      {
+        id: "house_abandoned_cart_external",
+        title: "Abandoned Cart — External Event",
+        categoryForEmails: "Abandoned Cart (External)",
+        image: "House/Program Screenshots/Abandoned Cart - External Event.png",
+        summary: "Abandoned Cart variant triggered by external event payload; mirrors Fast AC logic with source-specific checks.",
+        bullets: [
+          "Triggered by external source payload",
+          "Same content family; adjusted filters",
+          "Four-step reminders; stop on purchase"
         ]
       },
       {
@@ -203,21 +282,29 @@
         title: "VIP Anniversary Offer",
         categoryForEmails: "VIP Anniversary",
         image: "House/Program Screenshots/VIP Anniversary Offer.png",
-        summary: "Celebratory message with VIP-tier logic and timeboxed voucher.",
+        summary: "Celebratory message with VIP-tier logic and time-boxed voucher.",
         bullets: ["VIP tier check", "Personalisation", "Voucher/no-code rules"]
       },
       {
         id: "house_in_session_cross_sell",
         title: "In-Session Cross-Sell",
-        categoryForEmails: "In-Session Cross-Sell",
         image: "House/Program Screenshots/In-Session Cross-Sell.png",
-        summary: "Onsite behaviour-driven nudge with rapid follow-up.",
-        bullets: ["Session trigger", "Recent view/click logic", "Light incentive variant"]
+        noEmails: true,
+        summary:
+          "When a shopper leaves items in their cart, the program identifies the category (e.g., toaster, kettle, rice cooker) and routes them into tailored cross-sell paths where relevant campaigns are triggered outside this flow. Built as a ‘traffic controller,’ it ensures customers only receive product-specific offers and exit immediately on purchase to prevent over-sending.",
+        bullets: [
+          "Routes by product category (e.g., toaster/kettle)",
+          "Triggers downstream, category-specific campaigns",
+          "Immediate exit on purchase to prevent over-sending"
+        ]
       }
     ];
 
-    /* EMAILS (House / GRB) */
+    /* ===== EMAILS (House / GRB) =====
+       For placeholders (not uploaded yet), set placeholder:true — the View/Download
+       buttons are disabled with a ‘Placeholder’ badge. */
     const EMAILS = [
+      /* Welcome Series — Online LEAD */
       { id:"Auto_WelcomeSeries_Online_Lead_Email_01", type:"Automation", date:"2025-09-22",
         category:["Welcome Series","Online"], tags:["Lead","Welcome"],
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Lead_Email_01.html",
@@ -231,6 +318,7 @@
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Lead_Email_03.html",
         notes:"Story tile + editorial section" },
 
+      /* Welcome Series — Online CUSTOMER */
       { id:"Auto_WelcomeSeries_Online_Customer_Email_01", type:"Automation", date:"2025-09-10",
         category:["Welcome Series","Online"], tags:["Customer"],
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Customer_Email_01.html",
@@ -240,6 +328,7 @@
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_Online_Customer_Email_02.html",
         notes:"Follow-up with care/use tips and related categories" },
 
+      /* Welcome Series — In-Store VIP */
       { id:"Auto_WelcomeSeries_InStore_VIP_Email_01", type:"Automation", date:"2025-09-06",
         category:["Welcome Series","In Store","VIP"], tags:["VIP","In-store"],
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_InStore_VIP_Email_01.html",
@@ -255,9 +344,9 @@
       { id:"Auto_WelcomeSeries_InStore_VIP_NoCode_Email_02", type:"Automation", date:"2025-09-03",
         category:["Welcome Series","In Store","VIP"], tags:["No-code","VIP","In-store"],
         path:"Emails/GRB/House/[FUTURE STATE] Welcome Series (Online & In Store)/Auto_WelcomeSeries_InStore_VIP_NoCode_Email_02.html",
-        notes:"No-code branch for VIP — incentive removed / value-led content" },  <!-- <<< COMMA ADDED HERE -->
+        notes:"No-code branch for VIP — incentive removed / value-led content" },
 
-      /* VIP Anniversary Offer (category must match PROGRAMS.categoryForEmails) */
+      /* VIP Anniversary Offer */
       { id:"AP_TR_VIP_AV_E1", type:"Automation", date:"2025-09-06",
         category:["VIP Anniversary"], tags:["VIP","Anniversary"],
         path:"Emails/GRB/House/VIP Anniversary Offer/AP_TR_VIP_AV_E1.html",
@@ -265,56 +354,39 @@
       { id:"AP_TR_VIP_AV_E2", type:"Automation", date:"2025-09-04",
         category:["VIP Anniversary"], tags:["VIP","Anniversary"],
         path:"Emails/GRB/House/VIP Anniversary Offer/AP_TR_VIP_AV_E2.html",
-        notes:"VIP Anniversary Email 2" }
+        notes:"VIP Anniversary Email 2" },
 
-    /* [Future State] Cross-Sell Product Focused */
-      { id:"NEW_Cross-sell_Journey_Bacc_PastaMachine_DryingRack_1", type:"Automation", date:"2025-09-06",
-        category:["Cross-Sell Product Focused"], tags:["-"],
+      /* Cross-Sell Product Focused */
+      { id:"NEW_Cross-sell_Bacc_PastaMachine_DryingRack_1", type:"Automation", date:"2025-09-06",
+        category:["Cross-Sell Product Focused"], tags:["Cross-sell"],
         path:"Emails/GRB/House/[Future State] Cross-Sell Product Focused/NEW_Cross-sell_Journey_Bacc_PastaMachine_DryingRack_1.html",
-        notes:"Cross Sell - Pasta Machine x Drying Rack" },
-      { id:"NEW_Cross-sell_Journey_Bacc_STONEX2_RiceCooker_1", type:"Automation", date:"2025-09-04",
-        category:["Cross-Sell Product Focused"], tags:["-"],
+        notes:"Cross-sell — Pasta Machine × Drying Rack" },
+      { id:"NEW_Cross-sell_Bacc_STONEX2_RiceCooker_1", type:"Automation", date:"2025-09-04",
+        category:["Cross-Sell Product Focused"], tags:["Cross-sell"],
         path:"Emails/GRB/House/[Future State] Cross-Sell Product Focused/NEW_Cross-sell_Journey_Bacc_STONEX2_RiceCooker_1.html",
-        notes:"Cross Sell - StoneX2 x Rice Cooker" }
-      { id:"NEW_Cross-sell_Journey_Bacc_STONEX2_RiceCooker_2", type:"Automation", date:"2025-09-04",
-        category:["Cross-Sell Product Focused"], tags:["-"],
+        notes:"Cross-sell — StoneX2 × Rice Cooker (1)" },
+      { id:"NEW_Cross-sell_Bacc_STONEX2_RiceCooker_2", type:"Automation", date:"2025-09-04",
+        category:["Cross-Sell Product Focused"], tags:["Cross-sell"],
         path:"Emails/GRB/House/[Future State] Cross-Sell Product Focused/NEW_Cross-sell_Journey_Bacc_STONEX2_RiceCooker_2.html",
-        notes:"Cross Sell - StoneX2 x Rice Cooker 2" }
-       { id:"NEW_Cross-sell_Journey_Bacc_Toaster_Kettle_1.2", type:"Automation", date:"2025-09-04",
-        category:["Cross-Sell Product Focused"], tags:["-"],
+        notes:"Cross-sell — StoneX2 × Rice Cooker (2)" },
+      { id:"NEW_Cross-sell_Bacc_Toaster_Kettle_1_2", type:"Automation", date:"2025-09-04",
+        category:["Cross-Sell Product Focused"], tags:["Cross-sell"],
         path:"Emails/GRB/House/[Future State] Cross-Sell Product Focused/NEW_Cross-sell_Journey_Bacc_Toaster_Kettle_1.2.html",
-        notes:"Cross Sell - Toaster x Kettle 1.2" }
-       { id:"NEW_Cross-sell_Journey_Bacc_Toaster_Kettle_1", type:"Automation", date:"2025-09-04",
-        category:["Cross-Sell Product Focused"], tags:["-"],
+        notes:"Cross-sell — Toaster × Kettle (1.2)" },
+      { id:"NEW_Cross-sell_Bacc_Toaster_Kettle_1", type:"Automation", date:"2025-09-04",
+        category:["Cross-Sell Product Focused"], tags:["Cross-sell"],
         path:"Emails/GRB/House/[Future State] Cross-Sell Product Focused/NEW_Cross-sell_Journey_Bacc_Toaster_Kettle_1.html",
-        notes:"Cross Sell - Toaster x Kettle 1" }
-       { id:"NEW_Cross-sell_Journey_Bacc_Toaster_Kettle_2.2", type:"Automation", date:"2025-09-04",
-        category:["Cross-Sell Product Focused"], tags:["-"],
+        notes:"Cross-sell — Toaster × Kettle (1)" },
+      { id:"NEW_Cross-sell_Bacc_Toaster_Kettle_2_2", type:"Automation", date:"2025-09-04",
+        category:["Cross-Sell Product Focused"], tags:["Cross-sell"],
         path:"Emails/GRB/House/[Future State] Cross-Sell Product Focused/NEW_Cross-sell_Journey_Bacc_Toaster_Kettle_2.2.html",
-        notes:"Cross Sell - Toaster x Kettle 2.2" }
-       { id:"NEW_Cross-sell_Journey_Bacc_Toaster_Kettle_2", type:"Automation", date:"2025-09-04",
-        category:["Cross-Sell Product Focused"], tags:["-"],
+        notes:"Cross-sell — Toaster × Kettle (2.2)" },
+      { id:"NEW_Cross-sell_Bacc_Toaster_Kettle_2", type:"Automation", date:"2025-09-04",
+        category:["Cross-Sell Product Focused"], tags:["Cross-sell"],
         path:"Emails/GRB/House/[Future State] Cross-Sell Product Focused/NEW_Cross-sell_Journey_Bacc_Toaster_Kettle_2.html",
-        notes:"Cross Sell - Toaster x Kettle 2" }
-    
-    
-    
-    
+        notes:"Cross-sell — Toaster × Kettle (2)" },
 
-    /* In-Session Cross-Sell */
-     
-
-     /* [FUTURE STATE] Fast Abandoned Cart - Advanced */
-      { id:"AP_TR_VIP_AV_E1", type:"Automation", date:"2025-09-06",
-        category:["VIP Anniversary"], tags:["VIP","Anniversary"],
-        path:"Emails/GRB/House/VIP Anniversary Offer/AP_TR_VIP_AV_E1.html",
-        notes:"VIP Anniversary Email 1" },
-      { id:"AP_TR_VIP_AV_E2", type:"Automation", date:"2025-09-04",
-        category:["VIP Anniversary"], tags:["VIP","Anniversary"],
-        path:"Emails/GRB/House/VIP Anniversary Offer/AP_TR_VIP_AV_E2.html",
-        notes:"VIP Anniversary Email 2" }
-
-     /* [FUTURE STATE] Re-Engagement Flow */
+      /* Re-Engagement */
       { id:"Re-engagement - Email 1", type:"Automation", date:"2025-09-06",
         category:["Re-Engagement"], tags:["Re-Engagement"],
         path:"Emails/GRB/House/[FUTURE STATE] Re-Engagement Flow/Re-engagement - Email 1.html",
@@ -322,47 +394,79 @@
       { id:"Re-engagement - Email 2", type:"Automation", date:"2025-09-04",
         category:["Re-Engagement"], tags:["Re-Engagement"],
         path:"Emails/GRB/House/[FUTURE STATE] Re-Engagement Flow/Re-engagement - Email 2.html",
-        notes:"Re-Engagement Email 2" }
-    { id:"Re-engagement - Email 3", type:"Automation", date:"2025-09-06",
+        notes:"Re-Engagement Email 2" },
+      { id:"Re-engagement - Email 3", type:"Automation", date:"2025-09-06",
         category:["Re-Engagement"], tags:["Re-Engagement"],
         path:"Emails/GRB/House/[FUTURE STATE] Re-Engagement Flow/Re-engagement - Email 3.html",
         notes:"Re-Engagement Email 3" },
       { id:"Re-engagement - Email 4", type:"Automation", date:"2025-09-04",
         category:["Re-Engagement"], tags:["Re-Engagement"],
         path:"Emails/GRB/House/[FUTURE STATE] Re-Engagement Flow/Re-engagement - Email 4.html",
-        notes:"Re-Engagement Email 4" }
+        notes:"Re-Engagement Email 4" },
 
-     /* [FUTURE STATE] Post-Purchase (Categories) */
-      { id:"Post Purchase - Airfryers - Email 1.html", type:"Automation", date:"2025-09-06",
+      /* Post-Purchase (Categories) */
+      { id:"Post Purchase - Airfryers - Email 1", type:"Automation", date:"2025-09-06",
         category:["Post-Purchase"], tags:["Post-Purchase"],
         path:"Emails/GRB/House/[FUTURE STATE] Post-Purchase (Categories)/Post Purchase - Airfryers - Email 1.html",
-        notes:"Post-Purchase Airfryers Email 1" },
+        notes:"Post-Purchase — Airfryers (Email 1)" },
       { id:"Post Purchase - Cookware - Baccarat NOOK - Email 1", type:"Automation", date:"2025-09-04",
         category:["Post-Purchase"], tags:["Post-Purchase"],
         path:"Emails/GRB/House/[FUTURE STATE] Post-Purchase (Categories)/Post Purchase - Cookware - Baccarat NOOK - Email 1.html",
-        notes:"Post-Purchase NOOK Email 1" }
+        notes:"Post-Purchase — Cookware (NOOK) (Email 1)" },
       { id:"Post Purchase - Cookware - Baccarat Non-stick - Email 1", type:"Automation", date:"2025-09-06",
         category:["Post-Purchase"], tags:["Post-Purchase"],
         path:"Emails/GRB/House/[FUTURE STATE] Post-Purchase (Categories)/Post Purchase - Cookware - Baccarat Non-stick - Email 1.html",
-        notes:"Post-Purchase Non-Stick Cookware Email 1" },
+        notes:"Post-Purchase — Non-stick Cookware (Email 1)" },
       { id:"Post Purchase - Cookware - Baccarat Stainless Steel - Email 1", type:"Automation", date:"2025-09-04",
         category:["Post-Purchase"], tags:["Post-Purchase"],
         path:"Emails/GRB/House/[FUTURE STATE] Post-Purchase (Categories)/Post Purchase - Cookware - Baccarat Stainless Steel - Email 1.html",
-        notes:"Post-Purchase Stainless Steel Email 1" }
+        notes:"Post-Purchase — Stainless Steel Cookware (Email 1)" },
       { id:"Post Purchase - Kettles - Email 1", type:"Automation", date:"2025-09-06",
         category:["Post-Purchase"], tags:["Post-Purchase"],
         path:"Emails/GRB/House/[FUTURE STATE] Post-Purchase (Categories)/Post Purchase - Kettles - Email 1.html",
-        notes:"Post-Purchase Kettles Email 1" },
+        notes:"Post-Purchase — Kettles (Email 1)" },
       { id:"Post Purchase - Knife blocks - Baccarat - Email 1", type:"Automation", date:"2025-09-04",
         category:["Post-Purchase"], tags:["Post-Purchase"],
         path:"Emails/GRB/House/[FUTURE STATE] Post-Purchase (Categories)/Post Purchase - Knife blocks - Baccarat - Email 1.html",
-        notes:"Post-Purchase Knife Blocks Email 1" }
+        notes:"Post-Purchase — Knife Blocks (Email 1)" },
 
-    
-    
+      /* Abandoned Cart — placeholders (Fast + External Event) */
+      { id:"AC Fast — Email 1 (placeholder)", type:"Automation", date:"2025-09-30",
+        category:["Abandoned Cart"], tags:["Fast AC"], placeholder:true,
+        path:"Emails/GRB/House/[FUTURE STATE] Fast Abandoned Cart - Advanced/AC_Fast_Email_01.html",
+        notes:"Placeholder — upload HTML and update path" },
+      { id:"AC Fast — Email 2 (placeholder)", type:"Automation", date:"2025-09-29",
+        category:["Abandoned Cart"], tags:["Fast AC"], placeholder:true,
+        path:"Emails/GRB/House/[FUTURE STATE] Fast Abandoned Cart - Advanced/AC_Fast_Email_02.html",
+        notes:"Placeholder — upload HTML and update path" },
+      { id:"AC Fast — Email 3 (placeholder)", type:"Automation", date:"2025-09-28",
+        category:["Abandoned Cart"], tags:["Fast AC"], placeholder:true,
+        path:"Emails/GRB/House/[FUTURE STATE] Fast Abandoned Cart - Advanced/AC_Fast_Email_03.html",
+        notes:"Placeholder — upload HTML and update path" },
+      { id:"AC Fast — Email 4 (placeholder)", type:"Automation", date:"2025-09-27",
+        category:["Abandoned Cart"], tags:["Fast AC"], placeholder:true,
+        path:"Emails/GRB/House/[FUTURE STATE] Fast Abandoned Cart - Advanced/AC_Fast_Email_04.html",
+        notes:"Placeholder — upload HTML and update path" },
 
+      { id:"AC External — Email 1 (placeholder)", type:"Automation", date:"2025-09-30",
+        category:["Abandoned Cart (External)"], tags:["External Event"], placeholder:true,
+        path:"Emails/GRB/House/Abandoned Cart - External Event/AC_External_Email_01.html",
+        notes:"Placeholder — upload HTML and update path" },
+      { id:"AC External — Email 2 (placeholder)", type:"Automation", date:"2025-09-29",
+        category:["Abandoned Cart (External)"], tags:["External Event"], placeholder:true,
+        path:"Emails/GRB/House/Abandoned Cart - External Event/AC_External_Email_02.html",
+        notes:"Placeholder — upload HTML and update path" },
+      { id:"AC External — Email 3 (placeholder)", type:"Automation", date:"2025-09-28",
+        category:["Abandoned Cart (External)"], tags:["External Event"], placeholder:true,
+        path:"Emails/GRB/House/Abandoned Cart - External Event/AC_External_Email_03.html",
+        notes:"Placeholder — upload HTML and update path" },
+      { id:"AC External — Email 4 (placeholder)", type:"Automation", date:"2025-09-27",
+        category:["Abandoned Cart (External)"], tags:["External Event"], placeholder:true,
+        path:"Emails/GRB/House/Abandoned Cart - External Event/AC_External_Email_04.html",
+        notes:"Placeholder — upload HTML and update path" }
     ];
 
+    /* ===== BELOW HERE: logic (don’t edit) ===== */
     const q = document.getElementById('q');
     const typeSel = document.getElementById('type');
     const sortSel = document.getElementById('sort');
@@ -385,8 +489,10 @@
     const pSummary = document.getElementById('prog-summary');
     const pBullets = document.getElementById('prog-bullets');
     const pEmails = document.getElementById('prog-emails');
+    const pEmailsTitle = document.getElementById('prog-emails-title');
     const pClose = document.getElementById('prog-close');
 
+    // Build filters
     (TYPES_PRESET||["Marketing","Automation","Transactional"]).forEach(t=>{
       const o=document.createElement('option'); o.value=t; o.textContent=t; typeSel.appendChild(o);
     });
@@ -398,8 +504,8 @@
     function buildHref(rawPath){
       let p = (rawPath||'').trim();
       if(!p) return '';
-      if(!/\.[a-z0-9]+$/i.test(p)) p += '.html';
-      p = p.split('/').map(seg => encodeURIComponent(seg)).join('/');
+      if(!/\.[a-z0-9]+$/i.test(p)) p += '.html';                 // ensure .html
+      p = p.split('/').map(seg => encodeURIComponent(seg)).join('/'); // encode each segment
       return basePath + p;
     }
     function formatDate(iso){
@@ -417,7 +523,7 @@
       pOverlay.classList.remove('show'); pOverlay.setAttribute('aria-hidden','true'); pImg.removeAttribute('src');
     }
     function openEmailOverlay(title, href){
-      closeProgramOverlay();
+      closeProgramOverlay(); // ensure email overlay is on top
       ovTitle.textContent = title; ovFrame.src = href; ovOpen.href = href; ovDown.href = href;
       overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
     }
@@ -455,7 +561,7 @@
         const img = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
         card.innerHTML = `
           ${ img ? `<img class="thumb" src="${img}" alt="${p.title}">` : '<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#556">No image</div>' }
-          <div class="row"><div style="font-weight:700">${p.title}</div><span class="badge">Program</span></div>
+          <div class="row"><div style="font-weight:700">${p.title}</div><span class="badge orange">${p.noEmails ? 'Info only' : 'Program'}</span></div>
           <div class="muted">${p.summary||''}</div>
           <div class="actions"><button class="btn primary">Open program</button></div>`;
         card.querySelector('.primary').addEventListener('click',()=>{
@@ -464,33 +570,50 @@
           pSummary.textContent = p.summary||'';
           pBullets.innerHTML = (p.bullets||[]).map(b=>`<li>${b}</li>`).join('');
           pEmails.innerHTML = '';
-          const matched = emailsForProgram(p.id);
-          if(matched.length===0){
-            const empty=document.createElement('div'); empty.className='card';
-            empty.innerHTML = '<div class="muted">No mapped emails yet (add EMAILS with matching category).</div>';
-            pEmails.appendChild(empty);
-          }else{
-            matched.forEach(e=>{
-              const href = buildHref(e.path);
-              const el=document.createElement('article'); el.className='card';
-              el.innerHTML = `
-                <div class="row"><div style="font-weight:700">${e.id.replaceAll('_',' ')}</div><div class="badge">${e.type}</div></div>
-                <div class="meta">
-                  <span class="badge">${formatDate(e.date)}</span>
-                  ${(e.tags||[]).map(t=>`<span class="badge">#${t}</span>`).join('')}
-                </div>
-                <div class="actions">
-                  <button class="btn primary">View</button>
-                  <button class="btn">Copy link</button>
-                </div>
-                ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }`;
-              el.querySelector('.primary').addEventListener('click', async ()=>{
-                if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
-                openEmailOverlay(e.id.replaceAll('_',' '), href);
+
+          // If program has no emails (router), show explanation and hide list title
+          if(p.noEmails){
+            pEmailsTitle.textContent = "About this program";
+            const info=document.createElement('div'); info.className='card';
+            info.innerHTML = '<div class="muted">This flow acts as a traffic controller that routes shoppers to category-specific campaigns outside this program. No emails are sent directly by this canvas.</div>';
+            pEmails.appendChild(info);
+          } else {
+            pEmailsTitle.textContent = "Included Emails";
+            const matched = emailsForProgram(p.id);
+            if(matched.length===0){
+              const empty=document.createElement('div'); empty.className='card';
+              empty.innerHTML = '<div class="muted">No mapped emails yet (add EMAILS with matching category).</div>';
+              pEmails.appendChild(empty);
+            }else{
+              matched.forEach(e=>{
+                const href = buildHref(e.path);
+                const el=document.createElement('article'); el.className='card';
+                const isPH = !!e.placeholder;
+                el.innerHTML = `
+                  <div class="row">
+                    <div style="font-weight:700">${e.id.replaceAll('_',' ')}</div>
+                    <div class="badge">${e.type}</div>
+                    ${isPH ? '<div class="badge orange">Placeholder</div>' : ''}
+                  </div>
+                  <div class="meta">
+                    <span class="badge">${formatDate(e.date)}</span>
+                    ${(e.tags||[]).map(t=>`<span class="badge">#${t}</span>`).join('')}
+                  </div>
+                  <div class="actions">
+                    <button class="btn primary ${isPH?'disabled':''}">View</button>
+                    <button class="btn ${isPH?'disabled':''}">Copy link</button>
+                  </div>
+                  ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }`;
+                if(!isPH){
+                  el.querySelector('.primary').addEventListener('click', async ()=>{
+                    if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
+                    openEmailOverlay(e.id.replaceAll('_',' '), href);
+                  });
+                  el.querySelector('.btn:not(.primary)').addEventListener('click',()=> copyToClipboard(location.origin + href));
+                }
+                pEmails.appendChild(el);
               });
-              el.querySelector('.btn:not(.primary)').addEventListener('click',()=> copyToClipboard(location.origin + href));
-              pEmails.appendChild(el);
-            });
+            }
           }
           pOverlay.classList.add('show'); pOverlay.setAttribute('aria-hidden','false');
         });
@@ -524,9 +647,14 @@
       }
       rows.forEach(e=>{
         const href = buildHref(e.path);
+        const isPH = !!e.placeholder;
         const card=document.createElement('article'); card.className='card';
         card.innerHTML = `
-          <div class="row"><div style="font-weight:700">${e.id.replaceAll('_',' ')}</div><div class="badge" title="${e.type}">${e.type}</div></div>
+          <div class="row">
+            <div style="font-weight:700">${e.id.replaceAll('_',' ')}</div>
+            <div class="badge" title="${e.type}">${e.type}</div>
+            ${isPH ? '<div class="badge orange">Placeholder</div>' : ''}
+          </div>
           <div class="meta">
             <span class="badge" title="Date">${formatDate(e.date)}</span>
             ${(e.category||[]).map(c=>`<span class="badge">${c}</span>`).join('')}
@@ -534,16 +662,18 @@
           </div>
           <div class="code">${e.path}</div>
           <div class="actions">
-            <button class="btn primary">View</button>
-            <button class="btn">Copy link</button>
-            <a class="btn ghost" href="${href}" download>Download HTML</a>
+            <button class="btn primary ${isPH?'disabled':''}">View</button>
+            <button class="btn ${isPH?'disabled':''}">Copy link</button>
+            <a class="btn ghost ${isPH?'disabled':''}" ${isPH?'tabindex="-1"':''} href="${isPH?'#':href}" ${isPH?'':'download'}>Download HTML</a>
           </div>
           ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }`;
-        card.querySelector('.primary').addEventListener('click', async ()=>{
-          if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
-          openEmailOverlay(e.id.replaceAll('_',' '), href);
-        });
-        card.querySelector('.btn:not(.primary)').addEventListener('click', ()=> copyToClipboard(location.origin + href));
+        if(!isPH){
+          card.querySelector('.primary').addEventListener('click', async ()=>{
+            if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
+            openEmailOverlay(e.id.replaceAll('_',' '), href);
+          });
+          card.querySelector('.btn:not(.primary)').addEventListener('click', ()=> copyToClipboard(location.origin + href));
+        }
         emailsView.appendChild(card);
       });
     }
@@ -555,16 +685,20 @@
       programsSelected ? renderPrograms() : renderEmails();
     }
 
+    // Tabs
     tabPrograms.addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','true'); tabEmails.setAttribute('aria-selected','false'); renderAll(); });
     tabEmails  .addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','false'); tabEmails .setAttribute('aria-selected','true');  renderAll(); });
 
+    // Filters
     q.addEventListener('input', renderAll);
     typeSel.addEventListener('change', renderAll);
     sortSel.addEventListener('change', renderAll);
     progFilterSel.addEventListener('change', renderAll);
 
+    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // Initial render
     renderAll();
   </script>
 </body>
