@@ -9,128 +9,127 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
- <style>
-  /* ===== THEME: Customr light (white + orange) ===== */
-  :root{
-    --bg:#ffffff;
-    --panel:#ffffff;
-    --muted:#6b7280;             /* subdued copy */
-    --text:#0b0c0f;              /* near-black body text */
-    --brand:#ff6a00;             /* Customr orange */
-    --brand-2:#cc5400;           /* darker orange for depth */
-    --ring:#ffb072;              /* focus ring tint */
-    --stroke:#e5e7eb;            /* light borders */
-    --mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-    --elev: 0 10px 30px rgba(17,24,39,.06); /* soft light shadow */
-  }
+  <style>
+    /* ===== THEME: Customr light (white + orange) ===== */
+    :root{
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --muted:#6b7280;             /* subdued copy */
+      --text:#0b0c0f;              /* near-black body text */
+      --brand:#ff6a00;             /* Customr orange */
+      --brand-2:#cc5400;           /* darker orange for depth */
+      --ring:#ffb072;              /* focus ring tint */
+      --stroke:#e5e7eb;            /* light borders */
+      --mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      --elev: 0 10px 30px rgba(17,24,39,.06); /* soft light shadow */
+    }
 
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    background:linear-gradient(180deg,#ffffff,#fafafa 40%, #ffffff);
-    color:var(--text);
-  }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:linear-gradient(180deg,#ffffff,#fafafa 40%, #ffffff);
+      color:var(--text);
+    }
 
-  .container{max-width:1200px;margin:0 auto;padding:24px}
+    .container{max-width:1200px;margin:0 auto;padding:24px}
 
-  header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
-  .brand{display:flex;gap:10px;align-items:center;font-weight:700}
-  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px rgba(255,106,0,.25)}
-  h1{font-size:clamp(22px,3vw,30px);margin:0}
-  .muted{color:var(--muted)}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:700}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px rgba(255,106,0,.25)}
+    h1{font-size:clamp(22px,3vw,30px);margin:0}
+    .muted{color:var(--muted)}
 
-  /* House × Customr banner placeholder (kept) */
-  .brandbar{
-    display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(90deg, rgba(255,106,0,.12), rgba(255,106,0,.04));
-    border:1px solid var(--stroke);
-    border-radius:14px;
-    padding:14px;
-    gap:12px;
-    margin-bottom:14px;
-    box-shadow:var(--elev);
-  }
-  .brandbar .tag{
-    padding:6px 10px;border:1px solid rgba(255,106,0,.35);
-    border-radius:999px;font-weight:600;color:#8a3b00;background:rgba(255,106,0,.10)
-  }
-  .brandbar img{max-height:44px}
+    /* House × Customr brand bar (text only) */
+    .brandbar{
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(90deg, rgba(255,106,0,.12), rgba(255,106,0,.04));
+      border:1px solid var(--stroke);
+      border-radius:14px;
+      padding:14px;
+      gap:12px;
+      margin-bottom:14px;
+      box-shadow:var(--elev);
+    }
+    .brandbar .tag{
+      padding:6px 10px;border:1px solid rgba(255,106,0,.35);
+      border-radius:999px;font-weight:600;color:#8a3b00;background:rgba(255,106,0,.10)
+    }
 
-  /* Panels / tabs */
-  .panel{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;box-shadow:var(--elev)}
-  .tabs{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid var(--stroke)}
-  .tab{
-    appearance:none;border:1px solid var(--stroke);background:#fff;color:var(--text);
-    border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer
-  }
-  .tab[aria-selected="true"]{
-    background:linear-gradient(180deg,var(--brand),var(--brand-2));
-    border-color:#9b4a15;color:#fff
-  }
+    /* Panels / tabs */
+    .panel{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;box-shadow:var(--elev)}
+    .tabs{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid var(--stroke)}
+    .tab{
+      appearance:none;border:1px solid var(--stroke);background:#fff;color:var(--text);
+      border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer
+    }
+    .tab[aria-selected="true"]{
+      background:linear-gradient(180deg,var(--brand),var(--brand-2));
+      border-color:#9b4a15;color:#fff
+    }
 
-  /* Filters */
-  .toolbar{display:grid;grid-template-columns:1fr 200px 150px 150px;gap:10px;padding:14px}
-  .field{position:relative}
-  input[type="search"],select{
-    width:100%;background:#fff;border:1px solid var(--stroke);color:var(--text);
-    padding:12px 14px;border-radius:10px;outline:none
-  }
-  input[type="search"]:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(255,106,0,.20)}
+    /* Filters */
+    .toolbar{display:grid;grid-template-columns:1fr 200px 150px 150px;gap:10px;padding:14px}
+    .field{position:relative}
+    input[type="search"],select{
+      width:100%;background:#fff;border:1px solid var(--stroke);color:var(--text);
+      padding:12px 14px;border-radius:10px;outline:none
+    }
+    input[type="search"]:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(255,106,0,.20)}
 
-  /* Cards / chips / code */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:14px}
-  .card{background:#fff;border:1px solid var(--stroke);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--elev)}
-  .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;border:1px solid #e2e8f0;color:#0f172a;background:#f8fafc;font-size:12px}
-  .badge.orange{border-color:rgba(255,106,0,.35);color:#8a3b00;background:rgba(255,106,0,.10)}
-  .meta{display:flex;flex-wrap:wrap;gap:6px}
-  .row{display:flex;gap:8px;align-items:center;justify-content:space-between}
-  .code{font-family:var(--mono);font-size:12px;color:#334155;background:#f8fafc;border:1px dashed #e2e8f0;border-radius:8px;padding:8px;overflow:auto}
+    /* Cards / chips / code */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:14px}
+    .card{background:#fff;border:1px solid var(--stroke);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--elev)}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;border:1px solid #e2e8f0;color:#0f172a;background:#f8fafc;font-size:12px}
+    .badge.orange{border-color:rgba(255,106,0,.35);color:#8a3b00;background:rgba(255,106,0,.10)}
+    .meta{display:flex;flex-wrap:wrap;gap:6px}
+    .row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+    .code{font-family:var(--mono);font-size:12px;color:#334155;background:#f8fafc;border:1px dashed #e2e8f0;border-radius:8px;padding:8px;overflow:auto}
 
-  /* Buttons (keep darker-orange glow) */
-  .actions{display:flex;gap:8px;flex-wrap:wrap}
-  .btn{
-    appearance:none;border:1px solid var(--stroke);border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer;
-    background:#fff;color:#0b0c0f;box-shadow:0 1px 0 rgba(0,0,0,.04)
-  }
-  .btn:hover{border-color:#d1d5db}
-  .btn.primary{
-    background:linear-gradient(180deg,var(--brand),var(--brand-2));border-color:#9b4a15;color:#fff;
-    box-shadow:0 8px 20px rgba(204,84,0,.25)   /* shadow-like darker orange */
-  }
-  .btn.ghost{background:transparent;border:1px dashed #cbd5e1}
-  .btn.disabled{opacity:.5;cursor:not-allowed}
+    /* Buttons (keep darker-orange glow) */
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{
+      appearance:none;border:1px solid var(--stroke);border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer;
+      background:#fff;color:#0b0c0f;box-shadow:0 1px 0 rgba(0,0,0,.04)
+    }
+    .btn:hover{border-color:#d1d5db}
+    .btn.primary{
+      background:linear-gradient(180deg,var(--brand),var(--brand-2));border-color:#9b4a15;color:#fff;
+      box-shadow:0 8px 20px rgba(204,84,0,.25)   /* shadow-like darker orange */
+    }
+    .btn.ghost{background:transparent;border:1px dashed #cbd5e1}
+    .btn.disabled{opacity:.5;cursor:not-allowed}
 
-  .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid var(--stroke);background:#fff}
+    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid var(--stroke);background:#fff}
 
-  /* Footer (kept dark to match site) */
-  .footer{font-size:12px;padding:24px;text-align:center;background:#232a33;border:1px solid #1f2630;border-radius:14px;margin:16px 0 0;color:#e5e7eb}
-  .footer-inner{display:flex;flex-direction:column;gap:8px;align-items:center}
-  .footer-brand{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff}
-  .footer-nav a{color:#ffd7bf;text-decoration:none;margin:0 8px}
-  .footer-nav a:hover{text-decoration:underline}
+    /* Footer (kept dark to match site) */
+    .footer{font-size:12px;padding:24px;text-align:center;background:#232a33;border:1px solid #1f2630;border-radius:14px;margin:16px 0 0;color:#e5e7eb}
+    .footer-inner{display:flex;flex-direction:column;gap:8px;align-items:center}
+    .footer-brand{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff}
+    .footer-nav a{color:#ffd7bf;text-decoration:none;margin:0 8px}
+    .footer-nav a:hover{text-decoration:underline}
 
-  /* Overlays */
-  .overlay{position:fixed;inset:0;display:none;background:rgba(0,0,0,.65);z-index:1000}
-  #overlay{z-index:1100;}
-  .overlay.show{display:block}
-  .ov-panel{position:absolute;inset:30px;display:flex;flex-direction:column;background:#fff;border:1px solid var(--stroke);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.14)}
-  .ov-bar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--stroke);padding:10px 12px}
-  .ov-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ov-actions{display:flex;gap:8px}
-  .ov-iframe{border:0;width:100%;height:calc(100% - 48px);background:#fff}
-  .ov-content{padding:14px;overflow:auto;height:calc(100% - 48px)}
-  .ov-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}
-  .close-x{background:transparent;border:1px solid #cbd5e1;border-radius:8px;color:#0b0c0f;padding:8px 10px;cursor:pointer}
+    /* Overlays */
+    .overlay{position:fixed;inset:0;display:none;background:rgba(0,0,0,.65);z-index:1000}
+    #overlay{z-index:1100;}
+    .overlay.show{display:block}
+    .ov-panel{position:absolute;inset:30px;display:flex;flex-direction:column;background:#fff;border:1px solid var(--stroke);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.14)}
+    .ov-bar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--stroke);padding:10px 12px}
+    .ov-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ov-actions{display:flex;gap:8px}
+    .ov-iframe{border:0;width:100%;height:calc(100% - 48px);background:#fff}
+    .ov-content{padding:14px;overflow:auto;height:calc(100% - 48px)}
+    .ov-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}
+    .close-x{background:transparent;border:1px solid #cbd5e1;border-radius:8px;color:#0b0c0f;padding:8px 10px;cursor:pointer}
 
-  @media (max-width:900px){
-    .toolbar{grid-template-columns:1fr 1fr 1fr}
-    .ov-cols{grid-template-columns:1fr}
-  }
-</style>
-
+    @media (max-width:900px){
+      .toolbar{grid-template-columns:1fr 1fr 1fr}
+      .ov-cols{grid-template-columns:1fr}
+    }
+  </style>
 </head>
+
 <body>
   <div class="container">
     <header>
@@ -138,17 +137,11 @@
       <div class="muted">Automation programs • Email previews — By Customr</div>
     </header>
 
-    <!-- House × Customr banner (swap image when ready, or keep text) -->
+    <!-- Brand bar (no banner image) -->
     <section class="brandbar" aria-label="House × Customr">
-  <img id="brand-img" src="assets/House X Customr Banner.svg" alt="House × Customr" />
-  <span class="tag">House × Customr</span>
-  <div class="muted">Partnership workspace — previews, program maps & shareable links</div>
-</section>
-const brandImg = document.getElementById('brand-img');
-if (brandImg) {
-  brandImg.addEventListener('error', ()=> brandImg.style.display = 'none');
-}
-
+      <span class="tag">House × Customr</span>
+      <div class="muted">Partnership workspace — previews, program maps & shareable links</div>
+    </section>
 
     <section class="panel" aria-labelledby="filters-heading">
       <div class="tabs" role="tablist">
@@ -551,6 +544,10 @@ if (brandImg) {
     overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeEmailOverlay(); });
     document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeEmailOverlay(); closeProgramOverlay(); }});
 
+    // Close program overlay with button or click-outside
+    pClose.addEventListener('click', closeProgramOverlay);
+    pOverlay.addEventListener('click', (e)=>{ if(e.target===pOverlay) closeProgramOverlay(); });
+
     function emailsForProgram(progId){
       const prog = PROGRAMS.find(p=>p.id===progId);
       if(!prog) return [];
@@ -563,115 +560,171 @@ if (brandImg) {
       return [];
     }
 
+    // Programs tab rendering (supports program filter + A→Z sort)
     function renderPrograms(){
-  const query = (q.value||'').trim().toLowerCase();
-  const selectedProgId = progFilterSel.value;   // <- use the dropdown on Programs tab
-  const sort = sortSel.value;
+      const query = (q.value||'').trim().toLowerCase();
+      const selectedProgId = progFilterSel.value;
+      const sort = sortSel.value;
 
-  programsView.innerHTML = '';
-  let items = PROGRAMS.slice();
+      programsView.innerHTML = '';
+      let items = PROGRAMS.slice();
 
-  // search filter
-  if(query){
-    items = items.filter(p =>
-      [p.title, p.summary, (p.bullets||[]).join(' ')].join(' ').toLowerCase().includes(query)
-    );
-  }
-
-  // program dropdown filter (show just the chosen program)
-  if (selectedProgId) {
-    items = items.filter(p => p.id === selectedProgId);
-  }
-
-  // sorting – only “Name A→Z” is meaningful for programs
-  if (sort === 'name_asc') {
-    items.sort((a,b) => a.title.localeCompare(b.title));
-  }
-
-  if(items.length===0){
-    const empty=document.createElement('div'); empty.className='card';
-    empty.innerHTML = '<div class="muted">No programs match your filters.</div>';
-    programsView.appendChild(empty); return;
-  }
-
-  items.forEach(p=>{
-    const card=document.createElement('article'); card.className='card';
-    const img = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
-    card.innerHTML = `
-      ${ img ? `<img class="thumb" src="${img}" alt="${p.title}">`
-             : '<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#556">No image</div>' }
-      <div class="row">
-        <div style="font-weight:700">${p.title}</div>
-        <span class="badge orange">${p.noEmails ? 'Info only' : 'Program'}</span>
-      </div>
-      <div class="muted">${p.summary||''}</div>
-      <div class="actions"><button class="btn primary">Open program</button></div>`;
-
-    card.querySelector('.primary').addEventListener('click',()=>{
-      pTitle.textContent = p.title;
-      pImg.src = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
-      pSummary.textContent = p.summary||'';
-      pBullets.innerHTML = (p.bullets||[]).map(b=>`<li>${b}</li>`).join('');
-      pEmails.innerHTML = '';
-
-      if(p.noEmails){
-        pEmailsTitle.textContent = "About this program";
-        const info=document.createElement('div'); info.className='card';
-        info.innerHTML = '<div class="muted">This flow acts as a traffic controller that routes shoppers to category-specific campaigns outside this program. No emails are sent directly by this canvas.</div>';
-        pEmails.appendChild(info);
-      } else {
-        pEmailsTitle.textContent = "Included Emails";
-        const matched = emailsForProgram(p.id);
-        if(matched.length===0){
-          const empty=document.createElement('div'); empty.className='card';
-          empty.innerHTML = '<div class="muted">No mapped emails yet (add EMAILS with matching category).</div>';
-          pEmails.appendChild(empty);
-        }else{
-          matched.forEach(e=>{
-            const href = buildHref(e.path);
-            const el=document.createElement('article'); el.className='card';
-            const isPH = !!e.placeholder;
-            el.innerHTML = `
-              <div class="row">
-                <div style="font-weight:700">${e.id.replaceAll('_',' ')}</div>
-                <div class="badge">${e.type}</div>
-                ${isPH ? '<div class="badge orange">Placeholder</div>' : ''}
-              </div>
-              <div class="meta">
-                <span class="badge">${formatDate(e.date)}</span>
-                ${(e.tags||[]).map(t=>`<span class="badge">#${t}</span>`).join('')}
-              </div>
-              <div class="actions">
-                <button class="btn primary ${isPH?'disabled':''}">View</button>
-                <button class="btn ${isPH?'disabled':''}">Copy link</button>
-              </div>
-              ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }`;
-            if(!isPH){
-              el.querySelector('.primary').addEventListener('click', async ()=>{
-                if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
-                openEmailOverlay(e.id.replaceAll('_',' '), href);
-              });
-              el.querySelector('.btn:not(.primary)').addEventListener('click',()=> copyToClipboard(location.origin + href));
-            }
-            pEmails.appendChild(el);
-          });
-        }
+      if(query){
+        items = items.filter(p =>
+          [p.title, p.summary, (p.bullets||[]).join(' ')].join(' ').toLowerCase().includes(query)
+        );
+      }
+      if (selectedProgId) {
+        items = items.filter(p => p.id === selectedProgId);
+      }
+      if (sort === 'name_asc') {
+        items.sort((a,b) => a.title.localeCompare(b.title));
       }
 
-      pOverlay.classList.add('show'); pOverlay.setAttribute('aria-hidden','false');
-    });
+      if(items.length===0){
+        const empty=document.createElement('div'); empty.className='card';
+        empty.innerHTML = '<div class="muted">No programs match your filters.</div>';
+        programsView.appendChild(empty); return;
+      }
 
-    programsView.appendChild(card);
-  });
-}
+      items.forEach(p=>{
+        const card=document.createElement('article'); card.className='card';
+        const img = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
+        card.innerHTML = `
+          ${ img ? `<img class="thumb" src="${img}" alt="${p.title}">`
+                 : '<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#556">No image</div>' }
+          <div class="row">
+            <div style="font-weight:700">${p.title}</div>
+            <span class="badge orange">${p.noEmails ? 'Info only' : 'Program'}</span>
+          </div>
+          <div class="muted">${p.summary||''}</div>
+          <div class="actions"><button class="btn primary">Open program</button></div>`;
 
+        card.querySelector('.primary').addEventListener('click',()=>{
+          pTitle.textContent = p.title;
+          pImg.src = p.image ? (basePath + p.image.split('/').map(encodeURIComponent).join('/')) : '';
+          pSummary.textContent = p.summary||'';
+          pBullets.innerHTML = (p.bullets||[]).map(b=>`<li>${b}</li>`).join('');
+          pEmails.innerHTML = '';
+
+          if(p.noEmails){
+            pEmailsTitle.textContent = "About this program";
+            const info=document.createElement('div'); info.className='card';
+            info.innerHTML = '<div class="muted">This flow acts as a traffic controller that routes shoppers to category-specific campaigns outside this program. No emails are sent directly by this canvas.</div>';
+            pEmails.appendChild(info);
+          } else {
+            pEmailsTitle.textContent = "Included Emails";
+            const matched = emailsForProgram(p.id);
+            if(matched.length===0){
+              const empty=document.createElement('div'); empty.className='card';
+              empty.innerHTML = '<div class="muted">No mapped emails yet (add EMAILS with matching category).</div>';
+              pEmails.appendChild(empty);
+            }else{
+              matched.forEach(e=>{
+                const href = buildHref(e.path);
+                const el=document.createElement('article'); el.className='card';
+                const isPH = !!e.placeholder;
+                el.innerHTML = `
+                  <div class="row">
+                    <div style="font-weight:700">${e.id.replaceAll('_',' ')}</div>
+                    <div class="badge">${e.type}</div>
+                    ${isPH ? '<div class="badge orange">Placeholder</div>' : ''}
+                  </div>
+                  <div class="meta">
+                    <span class="badge">${formatDate(e.date)}</span>
+                    ${(e.tags||[]).map(t=>`<span class="badge">#${t}</span>`).join('')}
+                  </div>
+                  <div class="actions">
+                    <button class="btn primary ${isPH?'disabled':''}">View</button>
+                    <button class="btn ${isPH?'disabled':''}">Copy link</button>
+                  </div>
+                  ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }`;
+                if(!isPH){
+                  el.querySelector('.primary').addEventListener('click', async ()=>{
+                    if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
+                    openEmailOverlay(e.id.replaceAll('_',' '), href);
+                  });
+                  el.querySelector('.btn:not(.primary)').addEventListener('click',()=> copyToClipboard(location.origin + href));
+                }
+                pEmails.appendChild(el);
+              });
+            }
+          }
+
+          pOverlay.classList.add('show'); pOverlay.setAttribute('aria-hidden','false');
+        });
+
+        programsView.appendChild(card);
+      });
+    }
+
+    function renderEmails(){
+      const query  = (q.value||'').trim().toLowerCase();
+      const type   = typeSel.value;
+      const sort   = sortSel.value;
+      const progId = progFilterSel.value;
+
+      let rows = EMAILS.slice();
+      if(progId){
+        const ids = new Set(emailsForProgram(progId).map(e=>e.id));
+        rows = rows.filter(e=>ids.has(e.id));
+      }
+      rows = rows.filter(e=>{
+        const inType = !type || e.type===type;
+        const hay = [e.id,(e.category||[]).join(' '),(e.tags||[]).join(' '),e.notes||''].join(' ').toLowerCase();
+        return inType && (!query || hay.includes(query));
+      });
+      rows.sort((a,b)=>{ if(sort==='name_asc') return a.id.localeCompare(b.id); if(sort==='date_asc') return a.date.localeCompare(b.date); return b.date.localeCompare(a.date); });
+
+      emailsView.innerHTML='';
+      if(rows.length===0){
+        const empty=document.createElement('div'); empty.className='card';
+        empty.innerHTML = '<div class="muted">No emails match your filters.</div>';
+        emailsView.appendChild(empty); return;
+      }
+      rows.forEach(e=>{
+        const href = buildHref(e.path);
+        const isPH = !!e.placeholder;
+        const card=document.createElement('article'); card.className='card';
+        card.innerHTML = `
+          <div class="row">
+            <div style="font-weight:700">${e.id.replaceAll('_',' ')}</div>
+            <div class="badge" title="${e.type}">${e.type}</div>
+            ${isPH ? '<div class="badge orange">Placeholder</div>' : ''}
+          </div>
+          <div class="meta">
+            <span class="badge" title="Date">${formatDate(e.date)}</span>
+            ${(e.category||[]).map(c=>`<span class="badge">${c}</span>`).join('')}
+            ${(e.tags||[]).map(t=>`<span class="badge">#${t}</span>`).join('')}
+          </div>
+          <div class="code">${e.path}</div>
+          <div class="actions">
+            <button class="btn primary ${isPH?'disabled':''}">View</button>
+            <button class="btn ${isPH?'disabled':''}">Copy link</button>
+            <a class="btn ghost ${isPH?'disabled':''}" ${isPH?'tabindex="-1"':''} href="${isPH?'#':href}" ${isPH?'':'download'}>Download HTML</a>
+          </div>
+          ${ e.notes ? `<div class="muted" style="font-size:12px">${e.notes}</div>` : '' }`;
+        if(!isPH){
+          card.querySelector('.primary').addEventListener('click', async ()=>{
+            if(!(await fileExists(href))){ alert("File not found:\n"+href+"\n\nCheck the path/casing and .html file in the repo."); return; }
+            openEmailOverlay(e.id.replaceAll('_',' '), href);
+          });
+          card.querySelector('.btn:not(.primary)').addEventListener('click', ()=> copyToClipboard(location.origin + href));
+        }
+        emailsView.appendChild(card);
+      });
+    }
+
+    function renderAll(){
+      const programsSelected = tabPrograms.getAttribute('aria-selected') === 'true';
+      programsView.style.display = programsSelected ? '' : 'none';
+      emailsView.style.display   = programsSelected ? 'none' : '';
+      programsSelected ? renderPrograms() : renderEmails();
+    }
 
     // Tabs
     tabPrograms.addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','true'); tabEmails.setAttribute('aria-selected','false'); renderAll(); });
     tabEmails  .addEventListener('click', ()=>{ tabPrograms.setAttribute('aria-selected','false'); tabEmails .setAttribute('aria-selected','true');  renderAll(); });
-    pClose.addEventListener('click', closeProgramOverlay);
-pOverlay.addEventListener('click', (e)=>{ if(e.target===pOverlay) closeProgramOverlay(); });
-
 
     // Filters
     q.addEventListener('input', renderAll);
